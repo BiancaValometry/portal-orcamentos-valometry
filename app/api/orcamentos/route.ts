@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CLIENT_OPTIONS, OUTRO_CLIENTE } from "@/lib/clientOptions";
+import { ExtractedBriefingSchema, type ExtractedBriefing } from "@/lib/extract";
 import {
   FIELD,
   TIPO_PESQUISA_OPTION,
@@ -19,12 +20,105 @@ import {
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-function bool(v: FormDataEntryValue | null): boolean {
-  return v === "true";
-}
-
 function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v.trim() : "";
+}
+
+const CONSIDERAR_QUANTI_MAP: Record<string, string> = {
+  programacao: CONSIDERAR_OPTION.quantiProgramacao,
+  disparo: CONSIDERAR_OPTION.quantiDisparo,
+  relatorio: CONSIDERAR_OPTION.quantiRelatorio,
+  analises: CONSIDERAR_OPTION.quantiAnalises,
+  apresentacao: CONSIDERAR_OPTION.quantiApresentacao,
+};
+
+const CONSIDERAR_QUALI_MAP: Record<string, string> = {
+  recrutamento: CONSIDERAR_OPTION.qualiRecrutamento,
+  incentivo: CONSIDERAR_OPTION.qualiIncentivo,
+  moderacao: CONSIDERAR_OPTION.qualiModeracao,
+  analises: CONSIDERAR_OPTION.qualiAnalises,
+  gravacao: CONSIDERAR_OPTION.qualiGravacao,
+  transcricao: CONSIDERAR_OPTION.qualiTranscricao,
+};
+
+const METODOLOGIA_QUANTI_MAP: Record<string, string> = {
+  cati: METODOLOGIA_QUANTI_OPTION.cati,
+  painel_online: METODOLOGIA_QUANTI_OPTION.painelOnline,
+  fornecedor_propoe: METODOLOGIA_QUANTI_OPTION.fornecedorPropoe,
+};
+
+const METODO_QUALITATIVO_MAP: Record<string, string> = {
+  idi: METODO_QUALITATIVO_OPTION.idi,
+  grupos_focais: METODO_QUALITATIVO_OPTION.gruposFocais,
+  diade: METODO_QUALITATIVO_OPTION.diade,
+};
+
+const FRENTE_LABEL: Record<string, string> = {
+  quanti: "Quantitativa",
+  quali: "Qualitativa",
+  social_listening: "Social Listening",
+  freelas: "Freelas / serviço avulso",
+};
+
+function buildDescription(params: {
+  solicitanteNome: string;
+  solicitanteEmail: string;
+  clienteNome: string;
+  projeto: string;
+  prazo: string;
+  textoLivre: string;
+  extraido: ExtractedBriefing | null;
+  arquivosNomes: string[];
+}) {
+  const { solicitanteNome, solicitanteEmail, clienteNome, projeto, prazo, textoLivre, extraido, arquivosNomes } = params;
+  const lines: string[] = [];
+  lines.push(`## Solicitação de orçamento`);
+  lines.push(``);
+  lines.push(`**Solicitante:** ${solicitanteNome} (${solicitanteEmail})`);
+  lines.push(`**Cliente:** ${clienteNome}`);
+  lines.push(`**Projeto:** ${projeto}`);
+  if (prazo) lines.push(`**Prazo desejado:** ${prazo}`);
+
+  if (extraido) {
+    lines.push(`**Frentes identificadas pela IA:** ${extraido.frentes.map((f) => FRENTE_LABEL[f] ?? f).join(", ") || "nenhuma identificada"}`);
+    lines.push(``, `### Resumo (IA)`, extraido.resumo);
+
+    if (extraido.quanti) {
+      lines.push(``, `### Quantitativa`);
+      if (extraido.quanti.amostra_total) lines.push(`- Amostra total: ${extraido.quanti.amostra_total}`);
+      if (extraido.quanti.loi) lines.push(`- LOI: ${extraido.quanti.loi}`);
+      if (extraido.quanti.metodologia.length) lines.push(`- Metodologia: ${extraido.quanti.metodologia.join(", ")}`);
+      if (extraido.quanti.perfil_respondentes) lines.push(`- Perfil dos respondentes/cotas: ${extraido.quanti.perfil_respondentes}`);
+      if (extraido.quanti.servicos.length) lines.push(`- Cotar: ${extraido.quanti.servicos.join(", ")}`);
+    }
+    if (extraido.quali) {
+      lines.push(``, `### Qualitativa`);
+      if (extraido.quali.metodos.length) lines.push(`- Métodos: ${extraido.quali.metodos.join(", ")}`);
+      if (extraido.quali.n_entrevistas) lines.push(`- Nº de entrevistas/díades: ${extraido.quali.n_entrevistas}`);
+      if (extraido.quali.n_grupos_focais) lines.push(`- Nº de grupos focais: ${extraido.quali.n_grupos_focais}`);
+      if (extraido.quali.n_participantes_por_grupo) lines.push(`- Participantes por grupo: ${extraido.quali.n_participantes_por_grupo}`);
+      if (extraido.quali.perfil_entrevistados) lines.push(`- Perfil dos entrevistados: ${extraido.quali.perfil_entrevistados}`);
+      if (extraido.quali.servicos.length) lines.push(`- Cotar: ${extraido.quali.servicos.join(", ")}`);
+    }
+    if (extraido.social_listening) {
+      lines.push(``, `### Social Listening`, extraido.social_listening.detalhe || "_(sem detalhamento)_");
+    }
+    if (extraido.freelas) {
+      lines.push(``, `### Freelas / serviço avulso`, extraido.freelas.detalhe || "_(sem detalhamento)_");
+    }
+    if (extraido.faltando.length) {
+      lines.push(``, `### ⚠️ Faltou informar (identificado pela IA)`);
+      for (const item of extraido.faltando) lines.push(`- ${item}`);
+    }
+  }
+
+  lines.push(``, `### Texto original do solicitante`, textoLivre);
+
+  if (arquivosNomes.length) {
+    lines.push(``, `**Arquivos enviados:** ${arquivosNomes.join(", ")}`);
+  }
+
+  return lines.join("\n");
 }
 
 export async function POST(req: NextRequest) {
@@ -36,49 +130,20 @@ export async function POST(req: NextRequest) {
     const clienteId = str(form.get("clienteId"));
     const clienteOutro = str(form.get("clienteOutro"));
     const projeto = str(form.get("projeto"));
-    const prazo = str(form.get("prazo")); // yyyy-mm-dd
-
-    const frenteQuanti = bool(form.get("frenteQuanti"));
-    const frenteQuali = bool(form.get("frenteQuali"));
-    const frenteSocial = bool(form.get("frenteSocial"));
-
-    const amostraTotal = str(form.get("amostraTotal"));
-    const loi = str(form.get("loi"));
-    const metCati = bool(form.get("metCati"));
-    const metPainel = bool(form.get("metPainel"));
-    const metFornecedorPropoe = bool(form.get("metFornecedorPropoe"));
-    const perfilRespondentes = str(form.get("perfilRespondentes"));
-    const cQuantiProgramacao = bool(form.get("cQuantiProgramacao"));
-    const cQuantiDisparo = bool(form.get("cQuantiDisparo"));
-    const cQuantiRelatorio = bool(form.get("cQuantiRelatorio"));
-    const cQuantiAnalises = bool(form.get("cQuantiAnalises"));
-    const cQuantiApresentacao = bool(form.get("cQuantiApresentacao"));
-
-    const metIdi = bool(form.get("metIdi"));
-    const metGruposFocais = bool(form.get("metGruposFocais"));
-    const metDiade = bool(form.get("metDiade"));
-    const nEntrevistas = str(form.get("nEntrevistas"));
-    const nGruposFocais = str(form.get("nGruposFocais"));
-    const nParticipantesPorGrupo = str(form.get("nParticipantesPorGrupo"));
-    const perfilEntrevistados = str(form.get("perfilEntrevistados"));
-    const cQualiRecrutamento = bool(form.get("cQualiRecrutamento"));
-    const cQualiIncentivo = bool(form.get("cQualiIncentivo"));
-    const cQualiModeracao = bool(form.get("cQualiModeracao"));
-    const cQualiAnalises = bool(form.get("cQualiAnalises"));
-    const cQualiGravacao = bool(form.get("cQualiGravacao"));
-    const cQualiTranscricao = bool(form.get("cQualiTranscricao"));
-
-    const socialDetalhe = str(form.get("socialDetalhe"));
-    const servicosAdicionais = str(form.get("servicosAdicionais"));
-    const observacoes = str(form.get("observacoes"));
+    const prazo = str(form.get("prazo"));
+    const textoLivre = str(form.get("textoLivre"));
+    const extraidoRaw = str(form.get("extraido"));
 
     const arquivos = form.getAll("arquivos").filter((f): f is File => f instanceof File && f.size > 0);
 
-    if (!solicitanteNome || !solicitanteEmail || !clienteId || !projeto) {
+    if (!solicitanteNome || !solicitanteEmail || !clienteId || !projeto || !textoLivre) {
       return NextResponse.json({ ok: false, error: "Campos obrigatórios ausentes." }, { status: 400 });
     }
-    if (!frenteQuanti && !frenteQuali && !frenteSocial) {
-      return NextResponse.json({ ok: false, error: "Selecione ao menos uma frente de pesquisa." }, { status: 400 });
+
+    let extraido: ExtractedBriefing | null = null;
+    if (extraidoRaw) {
+      const parsed = ExtractedBriefingSchema.safeParse(JSON.parse(extraidoRaw));
+      if (parsed.success) extraido = parsed.data;
     }
 
     const clienteNome =
@@ -86,90 +151,27 @@ export async function POST(req: NextRequest) {
         ? clienteOutro || "Não informado"
         : CLIENT_OPTIONS.find((c) => c.id === clienteId)?.name ?? "Não identificado";
 
-    const frentesLabels = [
-      frenteQuanti ? "Quantitativa" : null,
-      frenteQuali ? "Qualitativa" : null,
-      frenteSocial ? "Social Listening" : null,
-    ].filter(Boolean);
-
-    // ---------- Monta a descrição completa (fonte da verdade, sempre visível) ----------
-    const lines: string[] = [];
-    lines.push(`## Solicitação de orçamento`);
-    lines.push(``);
-    lines.push(`**Solicitante:** ${solicitanteNome} (${solicitanteEmail})`);
-    lines.push(`**Cliente:** ${clienteNome}`);
-    lines.push(`**Projeto:** ${projeto}`);
-    if (prazo) lines.push(`**Prazo desejado:** ${prazo}`);
-    lines.push(`**Frentes solicitadas:** ${frentesLabels.join(", ")}`);
-
-    if (frenteQuanti) {
-      lines.push(``, `### Quantitativa`);
-      if (amostraTotal) lines.push(`- Amostra total: ${amostraTotal}`);
-      if (loi) lines.push(`- LOI: ${loi}`);
-      const metodologias = [
-        metCati ? "CATI" : null,
-        metPainel ? "Painel online" : null,
-        metFornecedorPropoe ? "Fornecedor pode propor o método" : null,
-      ].filter(Boolean);
-      if (metodologias.length) lines.push(`- Metodologia: ${metodologias.join(", ")}`);
-      if (perfilRespondentes) lines.push(`- Perfil dos respondentes/cotas: ${perfilRespondentes}`);
-      const considerarQuanti = [
-        cQuantiProgramacao ? "Programação de pesquisa" : null,
-        cQuantiDisparo ? "Disparo (painel/CATI etc)" : null,
-        cQuantiRelatorio ? "Relatório/Dash" : null,
-        cQuantiAnalises ? "Análises" : null,
-        cQuantiApresentacao ? "Apresentação" : null,
-      ].filter(Boolean);
-      if (considerarQuanti.length) lines.push(`- Cotar: ${considerarQuanti.join(", ")}`);
-    }
-
-    if (frenteQuali) {
-      lines.push(``, `### Qualitativa`);
-      const metodosQuali = [
-        metIdi ? "IDI" : null,
-        metGruposFocais ? "Grupos focais" : null,
-        metDiade ? "Díade" : null,
-      ].filter(Boolean);
-      if (metodosQuali.length) lines.push(`- Métodos: ${metodosQuali.join(", ")}`);
-      if (nEntrevistas) lines.push(`- Nº de entrevistas/díades: ${nEntrevistas}`);
-      if (nGruposFocais) lines.push(`- Nº de grupos focais: ${nGruposFocais}`);
-      if (nParticipantesPorGrupo) lines.push(`- Participantes por grupo: ${nParticipantesPorGrupo}`);
-      if (perfilEntrevistados) lines.push(`- Perfil dos entrevistados: ${perfilEntrevistados}`);
-      const considerarQuali = [
-        cQualiRecrutamento ? "Recrutamento" : null,
-        cQualiIncentivo ? "Pagamento de incentivo" : null,
-        cQualiModeracao ? "Moderação/entrevistas" : null,
-        cQualiAnalises ? "Análises" : null,
-        cQualiGravacao ? "Gravação" : null,
-        cQualiTranscricao ? "Transcrição" : null,
-      ].filter(Boolean);
-      if (considerarQuali.length) lines.push(`- Cotar: ${considerarQuali.join(", ")}`);
-    }
-
-    if (frenteSocial) {
-      lines.push(``, `### Social Listening`);
-      lines.push(socialDetalhe || "_(sem detalhamento adicional)_");
-    }
-
-    if (servicosAdicionais) lines.push(``, `### Serviços adicionais`, servicosAdicionais);
-    if (observacoes) lines.push(``, `### Observações`, observacoes);
-
-    if (arquivos.length) {
-      lines.push(``, `**Arquivos enviados:** ${arquivos.map((f) => f.name).join(", ")}`);
-    }
-
-    const description = lines.join("\n");
+    const description = buildDescription({
+      solicitanteNome,
+      solicitanteEmail,
+      clienteNome,
+      projeto,
+      prazo,
+      textoLivre,
+      extraido,
+      arquivosNomes: arquivos.map((f) => f.name),
+    });
 
     const tags = [
-      ...(frenteQuanti ? ["quanti"] : []),
-      ...(frenteQuali ? ["quali"] : []),
-      ...(frenteSocial ? ["social-listening"] : []),
+      ...(extraido?.frentes.includes("quanti") ? ["quanti"] : []),
+      ...(extraido?.frentes.includes("quali") ? ["quali"] : []),
+      ...(extraido?.frentes.includes("social_listening") ? ["social-listening"] : []),
+      ...(extraido?.frentes.includes("freelas") ? ["freelas"] : []),
       "solicitacao-portal",
     ];
 
     const dueDateMs = prazo ? new Date(`${prazo}T12:00:00`).getTime() : undefined;
 
-    // ---------- Cria a task ----------
     const task = await createTask({
       name: `[${clienteNome}] ${projeto}`,
       description,
@@ -177,85 +179,65 @@ export async function POST(req: NextRequest) {
       dueDateMs,
     });
 
-    // ---------- Preenche custom fields (melhor esforço, task já existe de qualquer forma) ----------
     const fieldFailures: string[] = [];
-
     async function set(fieldId: string, value: unknown, label: string) {
       if (value === undefined || value === null || value === "") return;
       const result = await setCustomField(task.id, fieldId, value);
       if (!result.ok) fieldFailures.push(`${label} (${result.error ?? "erro desconhecido"})`);
     }
 
-    if (clienteId && clienteId !== OUTRO_CLIENTE) {
-      await set(FIELD.cliente, clienteId, "Cliente");
-    }
+    if (clienteId && clienteId !== OUTRO_CLIENTE) await set(FIELD.cliente, clienteId, "Cliente");
     await set(FIELD.projeto, projeto, "Projeto");
-
-    const tipoPesquisaValue = frenteQuanti && frenteQuali
-      ? TIPO_PESQUISA_OPTION.Ambas
-      : frenteQuanti
-      ? TIPO_PESQUISA_OPTION.Quanti
-      : frenteQuali
-      ? TIPO_PESQUISA_OPTION.Quali
-      : TIPO_PESQUISA_OPTION.Nenhuma;
-    await set(FIELD.tipoPesquisa, tipoPesquisaValue, "Tipo de Pesquisa");
-
-    const considerarIds = [
-      cQuantiProgramacao ? CONSIDERAR_OPTION.quantiProgramacao : null,
-      cQuantiDisparo ? CONSIDERAR_OPTION.quantiDisparo : null,
-      cQuantiRelatorio ? CONSIDERAR_OPTION.quantiRelatorio : null,
-      cQuantiAnalises ? CONSIDERAR_OPTION.quantiAnalises : null,
-      cQuantiApresentacao ? CONSIDERAR_OPTION.quantiApresentacao : null,
-      cQualiRecrutamento ? CONSIDERAR_OPTION.qualiRecrutamento : null,
-      cQualiIncentivo ? CONSIDERAR_OPTION.qualiIncentivo : null,
-      cQualiModeracao ? CONSIDERAR_OPTION.qualiModeracao : null,
-      cQualiAnalises ? CONSIDERAR_OPTION.qualiAnalises : null,
-      cQualiGravacao ? CONSIDERAR_OPTION.qualiGravacao : null,
-      cQualiTranscricao ? CONSIDERAR_OPTION.qualiTranscricao : null,
-    ].filter((v): v is NonNullable<typeof v> => v !== null);
-    if (considerarIds.length) await set(FIELD.considerarOrcamento, considerarIds, "O que deve ser considerado");
-
-    if (amostraTotal) await set(FIELD.amostraQuanti, Number(amostraTotal), "Amostra Quanti");
-    if (loi) await set(FIELD.loi, LOI_OPTION[loi], "LOI");
-    if (perfilRespondentes) await set(FIELD.perfilRespondentesQuanti, perfilRespondentes, "Perfil respondentes");
-
-    const metodologiaIds = [
-      metCati ? METODOLOGIA_QUANTI_OPTION.cati : null,
-      metPainel ? METODOLOGIA_QUANTI_OPTION.painelOnline : null,
-      metFornecedorPropoe ? METODOLOGIA_QUANTI_OPTION.fornecedorPropoe : null,
-    ].filter((v): v is NonNullable<typeof v> => v !== null);
-    if (metodologiaIds.length) await set(FIELD.metodologiaQuanti, metodologiaIds, "Metodologia Quanti");
-
-    const metodosQualiIds = [
-      metIdi ? METODO_QUALITATIVO_OPTION.idi : null,
-      metGruposFocais ? METODO_QUALITATIVO_OPTION.gruposFocais : null,
-      metDiade ? METODO_QUALITATIVO_OPTION.diade : null,
-    ].filter((v): v is NonNullable<typeof v> => v !== null);
-    if (metodosQualiIds.length) await set(FIELD.metodosQualitativos, metodosQualiIds, "Métodos qualitativos");
-
-    if (nEntrevistas) {
-      const idx = Number(nEntrevistas);
-      if (idx >= 1 && idx < N_ENTREVISTAS_IDS.length) {
-        await set(FIELD.nEntrevistas, N_ENTREVISTAS_IDS[idx], "Nº de entrevistas");
-      }
-    }
-    if (nGruposFocais) {
-      const idx = Number(nGruposFocais);
-      if (idx >= 1 && idx < N_GRUPOS_FOCAIS_IDS.length) {
-        await set(FIELD.nGruposFocais, N_GRUPOS_FOCAIS_IDS[idx], "Nº de grupos focais");
-      }
-    }
-    if (nParticipantesPorGrupo) {
-      const id = N_PARTICIPANTES_POR_GRUPO_IDS[Number(nParticipantesPorGrupo)];
-      if (id) await set(FIELD.nParticipantesPorGrupo, id, "Participantes por grupo");
-    }
-    if (perfilEntrevistados) await set(FIELD.perfilEntrevistadosQuali, perfilEntrevistados, "Perfil entrevistados");
-
     if (dueDateMs) await set(FIELD.entregaFinal, dueDateMs, "Entrega Final");
-    if (observacoes) await set(FIELD.observacoes, observacoes, "Observações");
-    if (servicosAdicionais) await set(FIELD.servicosAdicionais, servicosAdicionais, "Serviços adicionais");
+    if (extraido?.resumo) await set(FIELD.observacoes, extraido.resumo, "Observações (resumo IA)");
+    if (extraido?.freelas?.detalhe) await set(FIELD.servicosAdicionais, extraido.freelas.detalhe, "Freelas/serviços adicionais");
 
-    // ---------- Anexa arquivos ----------
+    if (extraido) {
+      const temQuanti = extraido.frentes.includes("quanti");
+      const temQuali = extraido.frentes.includes("quali");
+      const tipoPesquisaValue =
+        temQuanti && temQuali
+          ? TIPO_PESQUISA_OPTION.Ambas
+          : temQuanti
+          ? TIPO_PESQUISA_OPTION.Quanti
+          : temQuali
+          ? TIPO_PESQUISA_OPTION.Quali
+          : TIPO_PESQUISA_OPTION.Nenhuma;
+      await set(FIELD.tipoPesquisa, tipoPesquisaValue, "Tipo de Pesquisa");
+
+      const considerarIds = [
+        ...(extraido.quanti?.servicos.map((s) => CONSIDERAR_QUANTI_MAP[s]).filter(Boolean) ?? []),
+        ...(extraido.quali?.servicos.map((s) => CONSIDERAR_QUALI_MAP[s]).filter(Boolean) ?? []),
+      ] as string[];
+      if (considerarIds.length) await set(FIELD.considerarOrcamento, considerarIds, "O que deve ser considerado");
+
+      if (extraido.quanti) {
+        const q = extraido.quanti;
+        if (q.amostra_total) await set(FIELD.amostraQuanti, q.amostra_total, "Amostra Quanti");
+        if (q.loi) await set(FIELD.loi, LOI_OPTION[q.loi], "LOI");
+        if (q.perfil_respondentes) await set(FIELD.perfilRespondentesQuanti, q.perfil_respondentes, "Perfil respondentes");
+        const metIds = q.metodologia.map((m) => METODOLOGIA_QUANTI_MAP[m]).filter(Boolean) as string[];
+        if (metIds.length) await set(FIELD.metodologiaQuanti, metIds, "Metodologia Quanti");
+      }
+
+      if (extraido.quali) {
+        const ql = extraido.quali;
+        const metodoIds = ql.metodos.map((m) => METODO_QUALITATIVO_MAP[m]).filter(Boolean) as string[];
+        if (metodoIds.length) await set(FIELD.metodosQualitativos, metodoIds, "Métodos qualitativos");
+        if (ql.n_entrevistas && ql.n_entrevistas >= 1 && ql.n_entrevistas < N_ENTREVISTAS_IDS.length) {
+          await set(FIELD.nEntrevistas, N_ENTREVISTAS_IDS[Math.round(ql.n_entrevistas)], "Nº de entrevistas");
+        }
+        if (ql.n_grupos_focais && ql.n_grupos_focais >= 1 && ql.n_grupos_focais < N_GRUPOS_FOCAIS_IDS.length) {
+          await set(FIELD.nGruposFocais, N_GRUPOS_FOCAIS_IDS[Math.round(ql.n_grupos_focais)], "Nº de grupos focais");
+        }
+        if (ql.n_participantes_por_grupo) {
+          const id = N_PARTICIPANTES_POR_GRUPO_IDS[Math.round(ql.n_participantes_por_grupo)];
+          if (id) await set(FIELD.nParticipantesPorGrupo, id, "Participantes por grupo");
+        }
+        if (ql.perfil_entrevistados) await set(FIELD.perfilEntrevistadosQuali, ql.perfil_entrevistados, "Perfil entrevistados");
+      }
+    }
+
     const attachFailures: string[] = [];
     for (const file of arquivos) {
       const result = await attachFile(task.id, file);
@@ -263,7 +245,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (fieldFailures.length || attachFailures.length) {
-      const noteLines = [`⚠️ Preenchimento automático incompleto (a descrição acima tem todas as respostas originais):`];
+      const noteLines = [`⚠️ Preenchimento automático incompleto (a descrição acima tem o texto original completo):`];
       if (fieldFailures.length) noteLines.push(`- Campos não preenchidos: ${fieldFailures.join("; ")}`);
       if (attachFailures.length) noteLines.push(`- Arquivos não anexados: ${attachFailures.join("; ")}`);
       await addComment(task.id, noteLines.join("\n"));

@@ -2,10 +2,16 @@
 
 import { useState } from "react";
 import { CLIENT_OPTIONS, OUTRO_CLIENTE } from "@/lib/clientOptions";
+import type { ExtractedBriefing } from "@/lib/extract";
 
-type Frentes = { quanti: boolean; quali: boolean; social: boolean };
+const FRENTE_LABEL: Record<string, string> = {
+  quanti: "Quantitativa",
+  quali: "Qualitativa",
+  social_listening: "Social Listening",
+  freelas: "Freelas / serviço avulso",
+};
 
-const initialFrentes: Frentes = { quanti: false, quali: false, social: false };
+type Status = "idle" | "analisando" | "revisao" | "enviando" | "success" | "erro";
 
 export default function Page() {
   const [solicitanteNome, setSolicitanteNome] = useState("");
@@ -14,50 +20,13 @@ export default function Page() {
   const [clienteOutro, setClienteOutro] = useState("");
   const [projeto, setProjeto] = useState("");
   const [prazo, setPrazo] = useState("");
-
-  const [frentes, setFrentes] = useState<Frentes>(initialFrentes);
-
-  // Quanti
-  const [amostraTotal, setAmostraTotal] = useState("");
-  const [loi, setLoi] = useState("");
-  const [metCati, setMetCati] = useState(false);
-  const [metPainel, setMetPainel] = useState(false);
-  const [metFornecedorPropoe, setMetFornecedorPropoe] = useState(false);
-  const [perfilRespondentes, setPerfilRespondentes] = useState("");
-  const [cQuantiProgramacao, setCQuantiProgramacao] = useState(false);
-  const [cQuantiDisparo, setCQuantiDisparo] = useState(false);
-  const [cQuantiRelatorio, setCQuantiRelatorio] = useState(false);
-  const [cQuantiAnalises, setCQuantiAnalises] = useState(false);
-  const [cQuantiApresentacao, setCQuantiApresentacao] = useState(false);
-
-  // Quali
-  const [metIdi, setMetIdi] = useState(false);
-  const [metGruposFocais, setMetGruposFocais] = useState(false);
-  const [metDiade, setMetDiade] = useState(false);
-  const [nEntrevistas, setNEntrevistas] = useState("");
-  const [nGruposFocais, setNGruposFocais] = useState("");
-  const [nParticipantesPorGrupo, setNParticipantesPorGrupo] = useState("");
-  const [perfilEntrevistados, setPerfilEntrevistados] = useState("");
-  const [cQualiRecrutamento, setCQualiRecrutamento] = useState(false);
-  const [cQualiIncentivo, setCQualiIncentivo] = useState(false);
-  const [cQualiModeracao, setCQualiModeracao] = useState(false);
-  const [cQualiAnalises, setCQualiAnalises] = useState(false);
-  const [cQualiGravacao, setCQualiGravacao] = useState(false);
-  const [cQualiTranscricao, setCQualiTranscricao] = useState(false);
-
-  // Social listening
-  const [socialDetalhe, setSocialDetalhe] = useState("");
-
-  const [servicosAdicionais, setServicosAdicionais] = useState("");
-  const [observacoes, setObservacoes] = useState("");
+  const [textoLivre, setTextoLivre] = useState("");
   const [arquivos, setArquivos] = useState<File[]>([]);
 
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
-
-  function toggleFrente(key: keyof Frentes) {
-    setFrentes((f) => ({ ...f, [key]: !f[key] }));
-  }
+  const [extraido, setExtraido] = useState<ExtractedBriefing | null>(null);
+  const [analiseIndisponivel, setAnaliseIndisponivel] = useState(false);
 
   function onFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -69,28 +38,49 @@ export default function Page() {
     setArquivos((prev) => prev.filter((_, i) => i !== idx));
   }
 
-  const nenhumaFrenteSelecionada = !frentes.quanti && !frentes.quali && !frentes.social;
-
-  function validate(): string | null {
+  function validateBasico(): string | null {
     if (!solicitanteNome.trim()) return "Informe seu nome.";
     if (!solicitanteEmail.trim()) return "Informe seu e-mail.";
     if (!clienteId) return "Selecione o cliente.";
     if (clienteId === OUTRO_CLIENTE && !clienteOutro.trim()) return "Informe o nome do cliente.";
     if (!projeto.trim()) return "Informe o nome do projeto/estudo.";
-    if (nenhumaFrenteSelecionada) return "Selecione ao menos uma frente de pesquisa (Quanti, Quali ou Social Listening).";
+    if (!textoLivre.trim() || textoLivre.trim().length < 15) return "Descreva sua solicitação com um pouco mais de detalhe.";
     return null;
   }
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onAnalisar(e: React.FormEvent) {
     e.preventDefault();
-    const validationError = validate();
+    const validationError = validateBasico();
     if (validationError) {
-      setStatus("error");
+      setStatus("erro");
       setErrorMsg(validationError);
       return;
     }
 
-    setStatus("submitting");
+    setStatus("analisando");
+    setErrorMsg("");
+    setAnaliseIndisponivel(false);
+
+    try {
+      const res = await fetch("/api/analisar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ textoLivre }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data?.error || "Falha na análise.");
+      setExtraido(data.extraido);
+      setStatus("revisao");
+    } catch (err) {
+      // Resiliência: se a IA falhar, deixa o solicitante seguir mesmo assim.
+      setExtraido(null);
+      setAnaliseIndisponivel(true);
+      setStatus("revisao");
+    }
+  }
+
+  async function onConfirmarEnvio() {
+    setStatus("enviando");
     setErrorMsg("");
 
     const fd = new FormData();
@@ -100,54 +90,24 @@ export default function Page() {
     fd.set("clienteOutro", clienteOutro);
     fd.set("projeto", projeto);
     fd.set("prazo", prazo);
-
-    fd.set("frenteQuanti", String(frentes.quanti));
-    fd.set("frenteQuali", String(frentes.quali));
-    fd.set("frenteSocial", String(frentes.social));
-
-    fd.set("amostraTotal", amostraTotal);
-    fd.set("loi", loi);
-    fd.set("metCati", String(metCati));
-    fd.set("metPainel", String(metPainel));
-    fd.set("metFornecedorPropoe", String(metFornecedorPropoe));
-    fd.set("perfilRespondentes", perfilRespondentes);
-    fd.set("cQuantiProgramacao", String(cQuantiProgramacao));
-    fd.set("cQuantiDisparo", String(cQuantiDisparo));
-    fd.set("cQuantiRelatorio", String(cQuantiRelatorio));
-    fd.set("cQuantiAnalises", String(cQuantiAnalises));
-    fd.set("cQuantiApresentacao", String(cQuantiApresentacao));
-
-    fd.set("metIdi", String(metIdi));
-    fd.set("metGruposFocais", String(metGruposFocais));
-    fd.set("metDiade", String(metDiade));
-    fd.set("nEntrevistas", nEntrevistas);
-    fd.set("nGruposFocais", nGruposFocais);
-    fd.set("nParticipantesPorGrupo", nParticipantesPorGrupo);
-    fd.set("perfilEntrevistados", perfilEntrevistados);
-    fd.set("cQualiRecrutamento", String(cQualiRecrutamento));
-    fd.set("cQualiIncentivo", String(cQualiIncentivo));
-    fd.set("cQualiModeracao", String(cQualiModeracao));
-    fd.set("cQualiAnalises", String(cQualiAnalises));
-    fd.set("cQualiGravacao", String(cQualiGravacao));
-    fd.set("cQualiTranscricao", String(cQualiTranscricao));
-
-    fd.set("socialDetalhe", socialDetalhe);
-    fd.set("servicosAdicionais", servicosAdicionais);
-    fd.set("observacoes", observacoes);
-
+    fd.set("textoLivre", textoLivre);
+    fd.set("extraido", extraido ? JSON.stringify(extraido) : "");
     arquivos.forEach((file) => fd.append("arquivos", file, file.name));
 
     try {
       const res = await fetch("/api/orcamentos", { method: "POST", body: fd });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) {
-        throw new Error(data?.error || "Não foi possível enviar a solicitação.");
-      }
+      if (!res.ok || !data.ok) throw new Error(data?.error || "Não foi possível enviar a solicitação.");
       setStatus("success");
     } catch (err: any) {
-      setStatus("error");
+      setStatus("revisao");
       setErrorMsg(err?.message ?? "Erro inesperado ao enviar.");
     }
+  }
+
+  function onVoltarEEditar() {
+    setStatus("idle");
+    setErrorMsg("");
   }
 
   if (status === "success") {
@@ -165,16 +125,124 @@ export default function Page() {
     );
   }
 
+  if (status === "revisao" || status === "enviando") {
+    return (
+      <main>
+        <div className="header">
+          <h1>Confira antes de enviar</h1>
+          <p>Veja o que entendemos da sua solicitação. Se algo estiver faltando ou errado, você pode voltar e complementar o texto.</p>
+        </div>
+
+        {errorMsg && <div className="notice error">{errorMsg}</div>}
+
+        {analiseIndisponivel && (
+          <div className="notice error">
+            Não conseguimos analisar automaticamente sua solicitação agora. Sem problema — você pode
+            enviar mesmo assim, o texto completo será revisado manualmente pela equipe.
+          </div>
+        )}
+
+        {extraido && (
+          <section className="card">
+            <h2>O que entendemos</h2>
+            <div className="field">
+              <label>Resumo</label>
+              <p>{extraido.resumo}</p>
+            </div>
+            <div className="field">
+              <label>Frentes identificadas</label>
+              <div className="frentes">
+                {extraido.frentes.length ? (
+                  extraido.frentes.map((f) => (
+                    <div className="frente-toggle active" key={f}>
+                      {FRENTE_LABEL[f] ?? f}
+                    </div>
+                  ))
+                ) : (
+                  <span className="hint">Nenhuma frente identificada com clareza.</span>
+                )}
+              </div>
+            </div>
+
+            {extraido.quanti && (
+              <div className="field">
+                <label>Quantitativa</label>
+                <ul>
+                  {extraido.quanti.amostra_total && <li>Amostra total: {extraido.quanti.amostra_total}</li>}
+                  {extraido.quanti.loi && <li>LOI: {extraido.quanti.loi}</li>}
+                  {extraido.quanti.metodologia.length > 0 && <li>Metodologia: {extraido.quanti.metodologia.join(", ")}</li>}
+                  {extraido.quanti.perfil_respondentes && <li>Perfil: {extraido.quanti.perfil_respondentes}</li>}
+                  {extraido.quanti.servicos.length > 0 && <li>Cotar: {extraido.quanti.servicos.join(", ")}</li>}
+                </ul>
+              </div>
+            )}
+
+            {extraido.quali && (
+              <div className="field">
+                <label>Qualitativa</label>
+                <ul>
+                  {extraido.quali.metodos.length > 0 && <li>Métodos: {extraido.quali.metodos.join(", ")}</li>}
+                  {extraido.quali.n_entrevistas && <li>Nº de entrevistas/díades: {extraido.quali.n_entrevistas}</li>}
+                  {extraido.quali.n_grupos_focais && <li>Nº de grupos focais: {extraido.quali.n_grupos_focais}</li>}
+                  {extraido.quali.n_participantes_por_grupo && (
+                    <li>Participantes por grupo: {extraido.quali.n_participantes_por_grupo}</li>
+                  )}
+                  {extraido.quali.perfil_entrevistados && <li>Perfil: {extraido.quali.perfil_entrevistados}</li>}
+                  {extraido.quali.servicos.length > 0 && <li>Cotar: {extraido.quali.servicos.join(", ")}</li>}
+                </ul>
+              </div>
+            )}
+
+            {extraido.social_listening && (
+              <div className="field">
+                <label>Social Listening</label>
+                <p>{extraido.social_listening.detalhe || "(sem detalhamento)"}</p>
+              </div>
+            )}
+
+            {extraido.freelas && (
+              <div className="field">
+                <label>Freelas / serviço avulso</label>
+                <p>{extraido.freelas.detalhe || "(sem detalhamento)"}</p>
+              </div>
+            )}
+          </section>
+        )}
+
+        {extraido && extraido.faltando.length > 0 && (
+          <section className="card">
+            <h2>⚠️ Antes de enviar, considere complementar</h2>
+            <p className="hint">Isso ajuda a Bianca a orçar mais rápido — mas você pode enviar mesmo assim.</p>
+            <ul>
+              {extraido.faltando.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <div className="submit-bar">
+          <button onClick={onVoltarEEditar} disabled={status === "enviando"} type="button">
+            Voltar e editar
+          </button>
+          <button className="primary" onClick={onConfirmarEnvio} disabled={status === "enviando"} type="button">
+            {status === "enviando" ? "Enviando..." : "Confirmar e enviar"}
+          </button>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main>
       <div className="header">
         <h1>Solicitação de Orçamento de Pesquisa</h1>
-        <p>Preencha os dados do projeto e anexe o briefing. Sua solicitação vira automaticamente uma tarefa para a equipe orçar com os fornecedores.</p>
+        <p>Preencha os dados do projeto e descreva sua solicitação com suas palavras. A IA organiza os detalhes antes de virar uma tarefa para a equipe orçar com os fornecedores.</p>
       </div>
 
-      {status === "error" && errorMsg && <div className="notice error">{errorMsg}</div>}
+      {status === "erro" && errorMsg && <div className="notice error">{errorMsg}</div>}
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onAnalisar}>
         <section className="card">
           <h2>Dados do projeto</h2>
           <div className="row">
@@ -219,154 +287,28 @@ export default function Page() {
         </section>
 
         <section className="card">
-          <h2>Frentes de pesquisa a orçar</h2>
+          <h2>Escreva aqui sua solicitação</h2>
           <div className="field">
-            <label className="required">O que precisa ser orçado?</label>
-            <div className="frentes">
-              <div
-                className={`frente-toggle ${frentes.quanti ? "active" : ""}`}
-                onClick={() => toggleFrente("quanti")}
-              >
-                Quantitativa
-              </div>
-              <div
-                className={`frente-toggle ${frentes.quali ? "active" : ""}`}
-                onClick={() => toggleFrente("quali")}
-              >
-                Qualitativa
-              </div>
-              <div
-                className={`frente-toggle ${frentes.social ? "active" : ""}`}
-                onClick={() => toggleFrente("social")}
-              >
-                Social Listening
-              </div>
-            </div>
-            <span className="hint">Pode selecionar mais de uma, se o projeto exigir orçamentos combinados.</span>
+            <label className="required">Descreva o escopo e a amostra da pesquisa, como preferir</label>
+            <span className="hint">
+              Não precisa ter um arquivo de amostra pronto — pode escrever livremente, como se estivesse
+              explicando pra um colega: o que precisa ser pesquisado, quali e/ou quanti e/ou social
+              listening, tamanho de amostra, perfil do público, quantos grupos focais e quantas pessoas
+              por grupo, prazo, o que já foi decidido e o que ainda está em aberto.
+            </span>
+            <textarea
+              style={{ minHeight: 180 }}
+              value={textoLivre}
+              onChange={(e) => setTextoLivre(e.target.value)}
+              placeholder="Ex: Precisamos orçar uma pesquisa quanti com 500 respondentes, público mulheres 25-45 anos, classe AB, questionário de uns 15 minutos. Também precisamos de social listening no Instagram e TikTok dos últimos 3 meses..."
+            />
           </div>
         </section>
-
-        {frentes.quanti && (
-          <section className="card">
-            <h2>Amostra — Quantitativa</h2>
-            <div className="row">
-              <div className="field">
-                <label>Tamanho total da amostra</label>
-                <input type="number" min="0" value={amostraTotal} onChange={(e) => setAmostraTotal(e.target.value)} />
-              </div>
-              <div className="field">
-                <label>Duração do questionário (LOI)</label>
-                <select value={loi} onChange={(e) => setLoi(e.target.value)}>
-                  <option value="">Selecione...</option>
-                  <option value="10min">10 min</option>
-                  <option value="15min">15 min</option>
-                  <option value="20min">20 min</option>
-                  <option value="25min">25 min</option>
-                </select>
-              </div>
-            </div>
-            <div className="field">
-              <label>Metodologia</label>
-              <div className="checkbox-group">
-                <label className="checkbox-item"><input type="checkbox" checked={metCati} onChange={(e) => setMetCati(e.target.checked)} /> CATI</label>
-                <label className="checkbox-item"><input type="checkbox" checked={metPainel} onChange={(e) => setMetPainel(e.target.checked)} /> Painel online</label>
-                <label className="checkbox-item"><input type="checkbox" checked={metFornecedorPropoe} onChange={(e) => setMetFornecedorPropoe(e.target.checked)} /> Fornecedor pode propor o melhor método</label>
-              </div>
-            </div>
-            <div className="field">
-              <label>Perfil dos respondentes e cotas (se houver)</label>
-              <textarea value={perfilRespondentes} onChange={(e) => setPerfilRespondentes(e.target.value)} />
-            </div>
-            <div className="field">
-              <label>O que deve ser considerado neste orçamento?</label>
-              <div className="checkbox-group">
-                <label className="checkbox-item"><input type="checkbox" checked={cQuantiProgramacao} onChange={(e) => setCQuantiProgramacao(e.target.checked)} /> Programação de pesquisa</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQuantiDisparo} onChange={(e) => setCQuantiDisparo(e.target.checked)} /> Disparo (painel/CATI etc)</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQuantiRelatorio} onChange={(e) => setCQuantiRelatorio(e.target.checked)} /> Relatório / Dash</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQuantiAnalises} onChange={(e) => setCQuantiAnalises(e.target.checked)} /> Análises</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQuantiApresentacao} onChange={(e) => setCQuantiApresentacao(e.target.checked)} /> Apresentação</label>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {frentes.quali && (
-          <section className="card">
-            <h2>Amostra — Qualitativa</h2>
-            <div className="field">
-              <label>Métodos qualitativos</label>
-              <div className="checkbox-group">
-                <label className="checkbox-item"><input type="checkbox" checked={metIdi} onChange={(e) => setMetIdi(e.target.checked)} /> Entrevistas em profundidade (IDI)</label>
-                <label className="checkbox-item"><input type="checkbox" checked={metGruposFocais} onChange={(e) => setMetGruposFocais(e.target.checked)} /> Grupos focais</label>
-                <label className="checkbox-item"><input type="checkbox" checked={metDiade} onChange={(e) => setMetDiade(e.target.checked)} /> Entrevistas em dupla (Díade)</label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="field">
-                <label>Nº de entrevistas / díades</label>
-                <select value={nEntrevistas} onChange={(e) => setNEntrevistas(e.target.value)}>
-                  <option value="">Selecione...</option>
-                  {Array.from({ length: 40 }, (_, i) => i + 1).map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </div>
-              {metGruposFocais && (
-                <div className="field">
-                  <label>Quantos grupos focais</label>
-                  <select value={nGruposFocais} onChange={(e) => setNGruposFocais(e.target.value)}>
-                    <option value="">Selecione...</option>
-                    {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-                      <option key={n} value={n}>{n}</option>
-                    ))}
-                  </select>
-                </div>
-              )}
-            </div>
-            {metGruposFocais && (
-              <div className="field">
-                <label>Nº de participantes por grupo</label>
-                <select value={nParticipantesPorGrupo} onChange={(e) => setNParticipantesPorGrupo(e.target.value)}>
-                  <option value="">Selecione...</option>
-                  {Array.from({ length: 8 }, (_, i) => i + 3).map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-            <div className="field">
-              <label>Perfil dos entrevistados</label>
-              <textarea value={perfilEntrevistados} onChange={(e) => setPerfilEntrevistados(e.target.value)} />
-            </div>
-            <div className="field">
-              <label>O que deve ser considerado neste orçamento?</label>
-              <div className="checkbox-group">
-                <label className="checkbox-item"><input type="checkbox" checked={cQualiRecrutamento} onChange={(e) => setCQualiRecrutamento(e.target.checked)} /> Recrutamento</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQualiIncentivo} onChange={(e) => setCQualiIncentivo(e.target.checked)} /> Pagamento de incentivo</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQualiModeracao} onChange={(e) => setCQualiModeracao(e.target.checked)} /> Moderação / entrevistas</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQualiAnalises} onChange={(e) => setCQualiAnalises(e.target.checked)} /> Análises</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQualiGravacao} onChange={(e) => setCQualiGravacao(e.target.checked)} /> Gravação</label>
-                <label className="checkbox-item"><input type="checkbox" checked={cQualiTranscricao} onChange={(e) => setCQualiTranscricao(e.target.checked)} /> Transcrição</label>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {frentes.social && (
-          <section className="card">
-            <h2>Social Listening</h2>
-            <div className="field">
-              <label>O que precisa ser monitorado?</label>
-              <span className="hint">Plataformas, período de monitoramento, palavras-chave/menções, concorrentes, etc.</span>
-              <textarea value={socialDetalhe} onChange={(e) => setSocialDetalhe(e.target.value)} />
-            </div>
-          </section>
-        )}
 
         <section className="card">
           <h2>Arquivos do briefing</h2>
           <div className="field">
-            <label>Anexe o(s) arquivo(s) com os detalhes do projeto</label>
+            <label>Anexe arquivo(s) complementares, se tiver (opcional)</label>
             <div className="file-drop">
               <input type="file" multiple onChange={onFilesSelected} />
               <div className="hint">Word, PDF, Excel, PPT... Evite arquivos muito grandes (acima de ~4 MB).</div>
@@ -384,21 +326,9 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="card">
-          <h2>Observações adicionais</h2>
-          <div className="field">
-            <label>Serviços adicionais além do já descrito acima</label>
-            <textarea value={servicosAdicionais} onChange={(e) => setServicosAdicionais(e.target.value)} />
-          </div>
-          <div className="field">
-            <label>Outras observações / considerações</label>
-            <textarea value={observacoes} onChange={(e) => setObservacoes(e.target.value)} />
-          </div>
-        </section>
-
         <div className="submit-bar">
-          <button className="primary" type="submit" disabled={status === "submitting"}>
-            {status === "submitting" ? "Enviando..." : "Enviar solicitação"}
+          <button className="primary" type="submit" disabled={status === "analisando"}>
+            {status === "analisando" ? "Analisando..." : "Revisar e enviar"}
           </button>
         </div>
       </form>

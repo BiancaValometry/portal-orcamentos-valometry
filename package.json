@@ -10,7 +10,9 @@
   "dependencies": {
     "next": "14.2.5",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "@anthropic-ai/sdk": "latest",
+    "zod": "latest"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
