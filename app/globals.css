@@ -262,3 +262,130 @@ button.primary:disabled {
   content: " *";
   color: var(--error);
 }
+
+/* ---- Histórico de Preços: badges e dashboard por frente ---- */
+
+.badge {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-quanti {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-quali {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.badge-social_listening {
+  background: #cffafe;
+  color: #0e7490;
+}
+
+.badge-freelas {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+}
+
+.chip.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  font-weight: 600;
+}
+
+.chip-clear {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.stat-card {
+  border-radius: var(--radius);
+  padding: 18px;
+  border: 1px solid var(--border);
+}
+
+.stat-card-quanti {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.stat-card-quali {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+.stat-card-social_listening {
+  background: #ecfeff;
+  border-color: #a5f3fc;
+}
+
+.stat-card-freelas {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.stat-card .stat-empty {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.stat-card .stat-sub {
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin: 2px 0 10px;
+}
+
+.stat-card .stat-big {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.stat-card .stat-unit {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.stat-card .stat-estimate {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+}
