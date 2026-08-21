@@ -42,7 +42,11 @@ export default function HistoricoPage() {
   const [filtroFrente, setFiltroFrente] = useState("");
   const [busca, setBusca] = useState("");
   const [perfisSelecionados, setPerfisSelecionados] = useState<string[]>([]);
-  const [volumeAmostral, setVolumeAmostral] = useState("");
+  // Cada frente tem sua própria unidade de volume — não dá pra usar um único
+  // campo genérico (respondente ≠ grupo focal ≠ entrevista).
+  const [volumeQuanti, setVolumeQuanti] = useState("");
+  const [volumeGrupos, setVolumeGrupos] = useState("");
+  const [volumeEntrevistas, setVolumeEntrevistas] = useState("");
 
   async function entrar(e: React.FormEvent) {
     e.preventDefault();
@@ -99,7 +103,9 @@ export default function HistoricoPage() {
     return filtradosBase.filter((item) => item.perfil.some((p) => perfisSelecionados.includes(p)));
   }, [filtradosBase, perfisSelecionados]);
 
-  const volumeNum = parseInt(volumeAmostral, 10) || 0;
+  const volumeQuantiNum = parseInt(volumeQuanti, 10) || 0;
+  const volumeGruposNum = parseInt(volumeGrupos, 10) || 0;
+  const volumeEntrevistasNum = parseInt(volumeEntrevistas, 10) || 0;
 
   function calcularStats(itens: PrecoItem[]) {
     const valores = itens
@@ -253,19 +259,41 @@ export default function HistoricoPage() {
           </div>
         </div>
 
+        <div className="row">
+          <div className="field">
+            <label>Volume amostral — Quantitativa (nº de respondentes)</label>
+            <input
+              type="number"
+              min={1}
+              value={volumeQuanti}
+              onChange={(e) => setVolumeQuanti(e.target.value)}
+              placeholder="Ex: 100"
+            />
+          </div>
+          <div className="field">
+            <label>Nº de Grupos Focais — Qualitativa</label>
+            <input
+              type="number"
+              min={1}
+              value={volumeGrupos}
+              onChange={(e) => setVolumeGrupos(e.target.value)}
+              placeholder="Ex: 6"
+            />
+          </div>
+        </div>
         <div className="field">
-          <label>Volume amostral (opcional)</label>
+          <label>Nº de Entrevistas/EPs — Qualitativa</label>
           <input
             type="number"
             min={1}
-            style={{ maxWidth: 220 }}
-            value={volumeAmostral}
-            onChange={(e) => setVolumeAmostral(e.target.value)}
-            placeholder="Ex: 100"
+            style={{ maxWidth: 260 }}
+            value={volumeEntrevistas}
+            onChange={(e) => setVolumeEntrevistas(e.target.value)}
+            placeholder="Ex: 12"
           />
           <span className="hint">
-            Informe uma quantidade (nº de respondentes/participantes) pra estimar o custo total com base no custo
-            unitário médio histórico, considerando a frente e o(s) perfil(is) filtrados acima.
+            Cada frente tem sua própria unidade — preencha só o(s) campo(s) que fizer sentido pro seu cenário.
+            A estimativa usa o custo unitário médio histórico, considerando a frente e o(s) perfil(is) filtrados acima.
           </span>
         </div>
       </section>
@@ -329,19 +357,20 @@ export default function HistoricoPage() {
                             cotações aqui misturam metodologias.
                           </p>
                         )}
-                        {volumeNum > 0 && (stat.custoPorGrupo !== null || stat.custoPorEntrevista !== null) && (
+                        {((volumeGruposNum > 0 && stat.custoPorGrupo !== null) ||
+                          (volumeEntrevistasNum > 0 && stat.custoPorEntrevista !== null)) && (
                           <div className="stat-estimate">
-                            {stat.custoPorGrupo !== null && (
+                            {volumeGruposNum > 0 && stat.custoPorGrupo !== null && (
                               <p className="stat-sub">
-                                Se forem {volumeNum} grupo{volumeNum === 1 ? "" : "s"} focal
-                                {volumeNum === 1 ? "" : "is"}:{" "}
-                                <strong>{formatBRL(stat.custoPorGrupo * volumeNum)}</strong>
+                                {volumeGruposNum} grupo{volumeGruposNum === 1 ? "" : "s"} focal
+                                {volumeGruposNum === 1 ? "" : "is"}:{" "}
+                                <strong>{formatBRL(stat.custoPorGrupo * volumeGruposNum)}</strong>
                               </p>
                             )}
-                            {stat.custoPorEntrevista !== null && (
+                            {volumeEntrevistasNum > 0 && stat.custoPorEntrevista !== null && (
                               <p className="stat-sub">
-                                Se forem {volumeNum} entrevista{volumeNum === 1 ? "" : "s"}:{" "}
-                                <strong>{formatBRL(stat.custoPorEntrevista * volumeNum)}</strong>
+                                {volumeEntrevistasNum} entrevista{volumeEntrevistasNum === 1 ? "" : "s"}:{" "}
+                                <strong>{formatBRL(stat.custoPorEntrevista * volumeEntrevistasNum)}</strong>
                               </p>
                             )}
                           </div>
@@ -358,13 +387,13 @@ export default function HistoricoPage() {
                           </>
                         )}
 
-                        {volumeNum > 0 && stat.custoUnitarioMedio !== null && unidade && (
+                        {key === "quanti" && volumeQuantiNum > 0 && stat.custoUnitarioMedio !== null && unidade && (
                           <div className="stat-estimate">
                             <p className="stat-sub">
-                              Estimativa para {volumeNum} {unidade}
-                              {volumeNum === 1 ? "" : "s"}
+                              Estimativa para {volumeQuantiNum} {unidade}
+                              {volumeQuantiNum === 1 ? "" : "s"}
                             </p>
-                            <p className="stat-big">{formatBRL(stat.custoUnitarioMedio * volumeNum)}</p>
+                            <p className="stat-big">{formatBRL(stat.custoUnitarioMedio * volumeQuantiNum)}</p>
                           </div>
                         )}
                       </>
