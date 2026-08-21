@@ -206,10 +206,14 @@ export async function setCustomField(
   }
 }
 
-export async function attachFile(taskId: string, file: File): Promise<{ ok: boolean; error?: string }> {
+export async function attachFile(
+  taskId: string,
+  file: Blob,
+  filename: string
+): Promise<{ ok: boolean; error?: string }> {
   try {
     const form = new FormData();
-    form.append("attachment", file, file.name);
+    form.append("attachment", file, filename);
     const res = await fetch(`${CLICKUP_API}/task/${taskId}/attachment`, {
       method: "POST",
       headers: { Authorization: apiToken() },

@@ -16,6 +16,14 @@ import {
   attachFile,
   addComment,
 } from "@/lib/clickup";
+import {
+  gerarBriefingQuanti,
+  gerarBriefingQuali,
+  gerarBriefingSocial,
+  gerarBriefingFreelas,
+  nomeArquivoSeguro,
+  type DadosBasicos,
+} from "@/lib/docx";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -240,15 +248,61 @@ export async function POST(req: NextRequest) {
 
     const attachFailures: string[] = [];
     for (const file of arquivos) {
-      const result = await attachFile(task.id, file);
+      const result = await attachFile(task.id, file, file.name);
       if (!result.ok) attachFailures.push(`${file.name} (${result.error ?? "erro desconhecido"})`);
     }
 
-    if (fieldFailures.length || attachFailures.length) {
+    // ---------- Gera e anexa os mini-briefings em .docx (um por frente) ----------
+    const briefingFailures: string[] = [];
+    let briefingsGerados = 0;
+    if (extraido) {
+      const dadosBasicos: DadosBasicos = {
+        cliente: clienteNome,
+        projeto,
+        solicitante: `${solicitanteNome} (${solicitanteEmail})`,
+        prazo,
+      };
+      const slug = nomeArquivoSeguro(projeto) || task.id;
+
+      async function anexarBriefing(buffer: Buffer, filename: string) {
+        const blob = new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
+        const result = await attachFile(task.id, blob, filename);
+        if (result.ok) briefingsGerados++;
+        else briefingFailures.push(`${filename} (${result.error ?? "erro desconhecido"})`);
+      }
+
+      try {
+        if (extraido.quanti) {
+          const buf = await gerarBriefingQuanti(dadosBasicos, extraido.quanti);
+          await anexarBriefing(buf, `Briefing-Quanti-${slug}.docx`);
+        }
+        if (extraido.quali) {
+          const buf = await gerarBriefingQuali(dadosBasicos, extraido.quali);
+          await anexarBriefing(buf, `Briefing-Quali-${slug}.docx`);
+        }
+        if (extraido.social_listening) {
+          const buf = await gerarBriefingSocial(dadosBasicos, extraido.social_listening.detalhe);
+          await anexarBriefing(buf, `Briefing-SocialListening-${slug}.docx`);
+        }
+        if (extraido.freelas) {
+          const buf = await gerarBriefingFreelas(dadosBasicos, extraido.freelas.detalhe);
+          await anexarBriefing(buf, `Briefing-Freelas-${slug}.docx`);
+        }
+      } catch (err: any) {
+        briefingFailures.push(`geração dos briefings (${err?.message ?? "erro desconhecido"})`);
+      }
+    }
+
+    if (fieldFailures.length || attachFailures.length || briefingFailures.length) {
       const noteLines = [`⚠️ Preenchimento automático incompleto (a descrição acima tem o texto original completo):`];
       if (fieldFailures.length) noteLines.push(`- Campos não preenchidos: ${fieldFailures.join("; ")}`);
       if (attachFailures.length) noteLines.push(`- Arquivos não anexados: ${attachFailures.join("; ")}`);
+      if (briefingFailures.length) noteLines.push(`- Mini-briefings não gerados/anexados: ${briefingFailures.join("; ")}`);
       await addComment(task.id, noteLines.join("\n"));
+    } else if (briefingsGerados > 0) {
+      await addComment(task.id, `📎 ${briefingsGerados} mini-briefing(s) gerado(s) automaticamente e anexado(s) a esta task.`);
     }
 
     return NextResponse.json({ ok: true, taskId: task.id });
