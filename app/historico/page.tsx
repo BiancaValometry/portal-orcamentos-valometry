@@ -12,12 +12,13 @@ const FRENTE_LABEL: Record<string, string> = {
   freelas: "Freelas",
 };
 
-// Unidade usada pra calcular o custo unitário de cada frente. Social Listening
-// e Freelas são serviços fechados (não cobrados "por pessoa"), por isso não
-// têm unidade — o painel mostra só o custo médio total pra essas duas.
+// Unidade usada pra calcular o custo unitário "genérico" (só usado pra
+// Quantitativa — Qualitativa tem sua própria lógica de grupo/entrevista, ver
+// calcularStats). Social Listening e Freelas são serviços fechados (não
+// cobrados "por pessoa"), por isso não têm unidade.
 const UNIDADE_LABEL: Record<string, string> = {
   quanti: "respondente",
-  quali: "participante",
+  quali: "",
   social_listening: "",
   freelas: "",
 };
@@ -107,6 +108,7 @@ export default function HistoricoPage() {
       .map((v) => Number(v));
     const custoMedio = valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : null;
 
+    // Custo unitário "genérico" (usado pra Quantitativa): valor / tamanho da amostra.
     const unitarios: number[] = [];
     for (const item of itens) {
       const valor = item.valor_total_brl;
@@ -117,7 +119,41 @@ export default function HistoricoPage() {
     }
     const custoUnitarioMedio = unitarios.length ? unitarios.reduce((a, b) => a + b, 0) / unitarios.length : null;
 
-    return { registros: itens.length, comValor: valores.length, custoMedio, custoUnitarioMedio };
+    // Custo por Grupo Focal (Qualitativa) — só entra a cotação que é 100% grupos
+    // focais (sem entrevistas misturadas), pra não ratear um valor combinado.
+    const porGrupo: number[] = [];
+    for (const item of itens) {
+      const valor = item.valor_total_brl;
+      const g = item.n_grupos_focais;
+      const e = item.n_entrevistas;
+      if (valor !== null && g !== null && Number(g) > 0 && (e === null || Number(e) === 0)) {
+        porGrupo.push(Number(valor) / Number(g));
+      }
+    }
+    const custoPorGrupo = porGrupo.length ? porGrupo.reduce((a, b) => a + b, 0) / porGrupo.length : null;
+
+    // Custo por Entrevista/EP (Qualitativa) — mesmo critério, só cotação 100% entrevistas.
+    const porEntrevista: number[] = [];
+    for (const item of itens) {
+      const valor = item.valor_total_brl;
+      const g = item.n_grupos_focais;
+      const e = item.n_entrevistas;
+      if (valor !== null && e !== null && Number(e) > 0 && (g === null || Number(g) === 0)) {
+        porEntrevista.push(Number(valor) / Number(e));
+      }
+    }
+    const custoPorEntrevista = porEntrevista.length ? porEntrevista.reduce((a, b) => a + b, 0) / porEntrevista.length : null;
+
+    return {
+      registros: itens.length,
+      comValor: valores.length,
+      custoMedio,
+      custoUnitarioMedio,
+      custoPorGrupo,
+      amostrasGrupo: porGrupo.length,
+      custoPorEntrevista,
+      amostrasEntrevista: porEntrevista.length,
+    };
   }
 
   // Painel por frente: tenta primeiro a combinação exata (frente + perfil
@@ -263,23 +299,75 @@ export default function HistoricoPage() {
                     <p className="stat-big">{formatBRL(stat.custoMedio)}</p>
                     <p className="stat-sub">custo médio por cotação</p>
 
-                    {stat.custoUnitarioMedio !== null && unidade && (
+                    {key === "quali" ? (
                       <>
-                        <p className="stat-big">
-                          {formatBRL(stat.custoUnitarioMedio)} <span className="stat-unit">/ {unidade}</span>
-                        </p>
-                        <p className="stat-sub">custo unitário médio</p>
+                        {stat.custoPorGrupo !== null && (
+                          <>
+                            <p className="stat-big">
+                              {formatBRL(stat.custoPorGrupo)} <span className="stat-unit">/ grupo focal</span>
+                            </p>
+                            <p className="stat-sub">
+                              custo unitário médio ({stat.amostrasGrupo} cotaç{stat.amostrasGrupo === 1 ? "ão" : "ões"}{" "}
+                              só de grupo)
+                            </p>
+                          </>
+                        )}
+                        {stat.custoPorEntrevista !== null && (
+                          <>
+                            <p className="stat-big">
+                              {formatBRL(stat.custoPorEntrevista)} <span className="stat-unit">/ entrevista (EP)</span>
+                            </p>
+                            <p className="stat-sub">
+                              custo unitário médio ({stat.amostrasEntrevista} cotaç{stat.amostrasEntrevista === 1 ? "ão" : "ões"}{" "}
+                              só de entrevista)
+                            </p>
+                          </>
+                        )}
+                        {stat.custoPorGrupo === null && stat.custoPorEntrevista === null && (
+                          <p className="stat-sub">
+                            Sem cotações "puras" (só grupo ou só entrevista) pra calcular custo unitário — as
+                            cotações aqui misturam metodologias.
+                          </p>
+                        )}
+                        {volumeNum > 0 && (stat.custoPorGrupo !== null || stat.custoPorEntrevista !== null) && (
+                          <div className="stat-estimate">
+                            {stat.custoPorGrupo !== null && (
+                              <p className="stat-sub">
+                                Se forem {volumeNum} grupo{volumeNum === 1 ? "" : "s"} focal
+                                {volumeNum === 1 ? "" : "is"}:{" "}
+                                <strong>{formatBRL(stat.custoPorGrupo * volumeNum)}</strong>
+                              </p>
+                            )}
+                            {stat.custoPorEntrevista !== null && (
+                              <p className="stat-sub">
+                                Se forem {volumeNum} entrevista{volumeNum === 1 ? "" : "s"}:{" "}
+                                <strong>{formatBRL(stat.custoPorEntrevista * volumeNum)}</strong>
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </>
-                    )}
+                    ) : (
+                      <>
+                        {stat.custoUnitarioMedio !== null && unidade && (
+                          <>
+                            <p className="stat-big">
+                              {formatBRL(stat.custoUnitarioMedio)} <span className="stat-unit">/ {unidade}</span>
+                            </p>
+                            <p className="stat-sub">custo unitário médio</p>
+                          </>
+                        )}
 
-                    {volumeNum > 0 && stat.custoUnitarioMedio !== null && unidade && (
-                      <div className="stat-estimate">
-                        <p className="stat-sub">
-                          Estimativa para {volumeNum} {unidade}
-                          {volumeNum === 1 ? "" : "s"}
-                        </p>
-                        <p className="stat-big">{formatBRL(stat.custoUnitarioMedio * volumeNum)}</p>
-                      </div>
+                        {volumeNum > 0 && stat.custoUnitarioMedio !== null && unidade && (
+                          <div className="stat-estimate">
+                            <p className="stat-sub">
+                              Estimativa para {volumeNum} {unidade}
+                              {volumeNum === 1 ? "" : "s"}
+                            </p>
+                            <p className="stat-big">{formatBRL(stat.custoUnitarioMedio * volumeNum)}</p>
+                          </div>
+                        )}
+                      </>
                     )}
                   </>
                 )}

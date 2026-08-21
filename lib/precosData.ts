@@ -15,7 +15,9 @@ export const PRECOS = [
         "arquivo":  "AC CAMARGO_Painel TAP quanti 07.2026.pdf",
         "observacoes":  "Arquivo salvo na subpasta \u0027Old\u0027 — versão original da cotação S02025, superada pela revisão de 872 respondentes (ver PAINEL TAP - AC CAMARGO - Quanti.png).",
         "perfil":  ["Não-Clientes/Concorrência"],
-        "amostra_tamanho":  700
+        "amostra_tamanho":  700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AC Camargo",
@@ -27,7 +29,9 @@ export const PRECOS = [
         "arquivo":  "PAINEL TAP - AC CAMARGO - Quanti.png",
         "observacoes":  "Revisão da cotação nº S02025 (27/07/2026, válida até 26/08/2026, vendedor Daniel Silva). Base Cliente/CRM A.C.Camargo (n=413) não entra nesta cotação — disparo e custo por conta do próprio cliente.",
         "perfil":  ["Não-Clientes/Concorrência"],
-        "amostra_tamanho":  872
+        "amostra_tamanho":  872,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -39,7 +43,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamento_Quantitativo_On The GO vs Brazil Panels_AFYA.docx",
         "observacoes":  "Orçamento informal, negociado via WhatsApp e ainda não formalizado; perfis de alunos e ex-alunos dependem de listagem fornecida pela Afya. Documento de comparativo interno entre On The Go e Brazil Panels.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -51,7 +57,9 @@ export const PRECOS = [
         "arquivo":  "Proposta OTG-AC - Projeto Afya_v2.pdf",
         "observacoes":  "Condição especial: aprovando 2 ondas up-front, desconto de 5% (R$232.750,00/onda). Inclui até 3 meses de uso da plataforma OTG (renovação a partir de R$899/mês). O próprio PDF do fornecedor apresenta inconsistência: texto introdutório cita \u0027700 entrevistas por onda\u0027, mas a soma do detalhamento por público totaliza 1.000 — não esclarecido pelo fornecedor.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -63,7 +71,9 @@ export const PRECOS = [
         "arquivo":  "2.000 respondentes_orçamento Brazil Panels_ AFYA_MAIO2026.pdf",
         "observacoes":  "Versão original da proposta (28/05/2026), pasta \u0027OLD\u0027 — substituída por revisão amostral de 2.200 entrevistas recebida em 10/06/2026 (ver arquivo jpeg). Conteúdo duplicado em \u00272.000 respondentes - proposta_brazil_panels_afya_awareness_05.2026.docx\u0027. Cenários: 2 ondas/ano = R$225.900,00; 4 ondas/ano = R$449.300,00. Número total de ondas e forma de pagamento não confirmados.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  2000
+        "amostra_tamanho":  2000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -75,7 +85,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Brazil Panels - amostra de 2.200_última versão ATUALIZADA DA QUANTI.jpeg",
         "observacoes":  "Versão vigente/atualizada, revisão recebida em 10/06/2026 (proposta original de 28/05/2026). Cenários: 2 ondas = R$246.600,00 (economia R$2.600); 4 ondas = R$490.600,00 (economia R$7.800).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  2200
+        "amostra_tamanho":  2200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -87,7 +99,9 @@ export const PRECOS = [
         "arquivo":  "Orcamento_953_AC_Company_LTDA_ Completo.pdf",
         "observacoes":  "Orçamento formal nº953, emitido em 24/04/2026 via GestãoClick. Inclui escopo completo (recrutamento + incentivos + moderação + transcrição).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  33
+        "amostra_tamanho":  33,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  3
     },
     {
         "cliente":  "AFYA",
@@ -99,7 +113,9 @@ export const PRECOS = [
         "arquivo":  "QUALI_ Recrutamento+ Incentivo_ANTARA_AFYA.pdf",
         "observacoes":  "Orçamento formal nº954 (24/04/2026), versão reduzida do orçamento nº953 — mesmo recrutamento, mas sem os itens de moderação/análise/apresentação e transcrição.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  33
+        "amostra_tamanho":  33,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  3
     },
     {
         "cliente":  "AFYA",
@@ -111,7 +127,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamentos_Qualitativo_Antara vs Andrea_AFYA.docx",
         "observacoes":  "Documento de comparativo interno (pasta OLD), com escopo maior (12 grupos) do que as cotações formais nº953/954 (que cobrem apenas 3 grupos + 3 díades) — não é fatura formal do fornecedor.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  51
+        "amostra_tamanho":  51,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  9
     },
     {
         "cliente":  "AFYA",
@@ -123,7 +141,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamentos_Qualitativo_Antara vs Andrea_AFYA.docx",
         "observacoes":  "Mesmo documento de comparativo interno citado acima (pasta OLD); valor informal para fins de comparação com Participe Pesquisas/Antara.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  51
+        "amostra_tamanho":  51,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  9
     },
     {
         "cliente":  "AFYA",
@@ -135,7 +155,9 @@ export const PRECOS = [
         "arquivo":  "ORÇAMENTO Qualy Vortice  Ana Couto.docx",
         "observacoes":  "Não foi possível calcular um valor total: o documento (pasta OLD) lista apenas preços unitários, sem quantidades/nº de grupos preenchidos. O total consolidado desta mesma fornecedora aparece em outro comparativo como R$53.380,00 (ver \u0027Comparativo de Orçamentos_Qualitativo_Antara vs Andrea_AFYA.docx\u0027).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -147,7 +169,9 @@ export const PRECOS = [
         "arquivo":  "Planilha_Orcamento_Afya_04.2026.xlsx",
         "observacoes":  "Valor extraído da aba \u0027📊 QUANTI – Onda Única\u0027 de planilha comparativa interna de fornecedores para Afya. A aba de cenários projeta (sem desconto informado): semestral (2 ondas/ano) R$16.800,00 e trimestral (4 ondas/ano) R$33.600,00. Demais fornecedores da planilha (Fornecedor 1, 2, 4, 5) não estavam preenchidos.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  700
+        "amostra_tamanho":  700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -159,7 +183,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo_Precos_Fornecedores_Afya_v2.xlsx",
         "observacoes":  "Existe opção alternativa da própria Polis com relatório automatizado (não elaborado por analista) cobrindo 4 marcas, com implementação/setup + 30 dias de acesso, por R$18.000,00; essa opção não inclui TikTok/YouTube salvo login da Afya/Ana Couto na plataforma.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -171,7 +197,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo_Precos_Fornecedores_Afya_v2.xlsx",
         "observacoes":  "A planilha lista os valores da Zygon como \u0027individuais\u0027 (opções alternativas, não somáveis). Opção 2: R$20.000,00 para 1 marca + acompanhamento dos 3 concorrentes no relatório executivo — porém o Social Analytics contínuo cobre só 1 marca; para acompanhar os 3 concorrentes seriam necessárias +3 marcas a R$100,00/mês cada (~R$300,00/mês adicional).",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -183,7 +211,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo_Precos_Fornecedores_Afya_v2.xlsx",
         "observacoes":  "Cobre 1 marca; acompanhar os 3 concorrentes da Afya no Social Analytics exigiria +3 marcas a R$100,00/mês cada (~+R$300,00/mês adicional). Total apresentado refere-se a setup + primeira mensalidade.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "BQV Autocuidado e Beleza",
@@ -195,7 +225,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_bqv_brazil_panels_v2.png",
         "observacoes":  "Do custo total, a Brazil Panels (parceira) assume R$11.100,00 e a Valometry paga R$8.900,00 (valor líquido). Não há detalhamento de amostra/metodologia nesta imagem.",
         "perfil":  ["Consumidoras de Beleza/Skincare"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "BQV Copa do Mundo",
@@ -207,7 +239,9 @@ export const PRECOS = [
         "arquivo":  "COPA DO MUNDO_Orçamento Brazil Panels R$ 9.00,00_04.2026.pdf",
         "observacoes":  "R$13.700,00 é o investimento assumido pela Brazil Panels como parceira (não é cobrança direta a um cliente final); a Ana Couto assume adicionalmente R$9.000,00 (por extenso: \u0027nove mil reais\u0027) no mesmo documento. O nome do arquivo (\u0027R$9.00,00\u0027) contém provável erro de digitação, faltando um zero.",
         "perfil":  ["Torcedores/Público Esportivo","Consumidor Geral"],
-        "amostra_tamanho":  1200
+        "amostra_tamanho":  1200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Caixa Consórcio",
@@ -219,7 +253,9 @@ export const PRECOS = [
         "arquivo":  "01- 2026 - CAIXA consórcio - R$3.600_Andrea Lopes.pdf",
         "observacoes":  null,
         "perfil":  ["Clientes Ativos"],
-        "amostra_tamanho":  7
+        "amostra_tamanho":  7,
+        "n_grupos_focais":  1,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Caixa Consórcio",
@@ -231,7 +267,9 @@ export const PRECOS = [
         "arquivo":  "01-2026 - ORC - Caixa Consórcio - R$20.600_ON THE GO.pdf",
         "observacoes":  "Proposta considera possibilidade de disparo adicional em base própria do cliente (funcionários clientes de Caixa Consórcio) para amostra total de 800; a On The Go não se responsabiliza pela quantidade de completas vindas de base externa.",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  400
+        "amostra_tamanho":  400,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Caixa Consórcio",
@@ -243,7 +281,9 @@ export const PRECOS = [
         "arquivo":  "02 - 2026 - OCR - Caixa Consórcio - Adicional 400 casos - R$12.400_ON THE GO.pdf",
         "observacoes":  "Complemento ao orçamento de R$20.600,00 do mesmo fornecedor/projeto (código OTG: ana_adhoc_express_jan_2026_projetoconsóciocasas).",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  400
+        "amostra_tamanho":  400,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Dufry",
@@ -255,7 +295,9 @@ export const PRECOS = [
         "arquivo":  "02 -2026 - ORC - Dufry - Recrutamento Participe Pesquisas_R$13.290,00.pdf",
         "observacoes":  "Orçamento formal nº909 (28/01/2026), forma de pagamento por transferência bancária.",
         "perfil":  ["Viajantes"],
-        "amostra_tamanho":  24
+        "amostra_tamanho":  24,
+        "n_grupos_focais":  4,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Gol",
@@ -267,7 +309,9 @@ export const PRECOS = [
         "arquivo":  "04-2026 - Orçamento - R$30.000,00 -  Participe Pesquisas_Projeto Gol.pdf",
         "observacoes":  "Orçamento formal nº933 (24/03/2026) com desconto de 7,5% aplicado ao item de recrutamento dos grupos (subtotal de serviços R$30.012,00, total com desconto R$30.000,00).",
         "perfil":  ["Viajantes"],
-        "amostra_tamanho":  52
+        "amostra_tamanho":  52,
+        "n_grupos_focais":  6,
+        "n_entrevistas":  4
     },
     {
         "cliente":  "Gol",
@@ -279,7 +323,9 @@ export const PRECOS = [
         "arquivo":  "com 3 grupos - Orcamento_933_AC_Company_LTDA_ GOL_ Recutamento.pdf",
         "observacoes":  "Mesmo número de orçamento (nº933, 24/03/2026) que a versão de R$30.000,00, porém com escopo menor (3 grupos em vez de 6) — provável versão alternativa/anterior do mesmo número de cotação.",
         "perfil":  ["Viajantes"],
-        "amostra_tamanho":  28
+        "amostra_tamanho":  28,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  4
     },
     {
         "cliente":  "Gol",
@@ -291,7 +337,9 @@ export const PRECOS = [
         "arquivo":  "Orcamento_934_AC_Company_LTDA_ Gol_ Recrutamento+ Moderação e Análise.pdf",
         "observacoes":  "Orçamento formal nº934 (24/03/2026) — mesma base de recrutamento do orçamento nº933 (versão 3 grupos), mas com escopo adicional de moderação, análise e transcrição.",
         "perfil":  ["Viajantes"],
-        "amostra_tamanho":  28
+        "amostra_tamanho":  28,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  4
     },
     {
         "cliente":  "HDI",
@@ -303,7 +351,9 @@ export const PRECOS = [
         "arquivo":  "Último Orçamento_Painel TAP_YELUM HDI_R$120.600,00_05.2026.docx",
         "observacoes":  "Pagamento em 2 parcelas (30/06/2026 e 30/07/2026); há menção secundária no documento a uma possível 3ª parcela em novembro/2026 referente a uma 2ª onda futura, mas o valor total oficial da proposta é R$120.600,00.",
         "perfil":  ["Clientes Ativos","Corretores"],
-        "amostra_tamanho":  7710
+        "amostra_tamanho":  7710,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "HDI",
@@ -315,7 +365,9 @@ export const PRECOS = [
         "arquivo":  "HDI YELUM - Orçamento Painel TAP_Pesquisas Quantitativas R$61.200,00_04.2026.pdf",
         "observacoes":  "Orçamento válido para todas as ondas de 2026.",
         "perfil":  ["Clientes Ativos","Corretores"],
-        "amostra_tamanho":  3930
+        "amostra_tamanho":  3930,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "HDI",
@@ -327,7 +379,9 @@ export const PRECOS = [
         "arquivo":  "HDI YELUM Análise de Territórios_Orcamento_Antara R$28.020,00_04.2026.pdf",
         "observacoes":  null,
         "perfil":  ["Clientes Ativos"],
-        "amostra_tamanho":  48
+        "amostra_tamanho":  48,
+        "n_grupos_focais":  6,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "HDI",
@@ -339,7 +393,9 @@ export const PRECOS = [
         "arquivo":  "HDI YELUM Disaster Check – Novelas_Orçamento_Antara R$22.950,00_04.2026.pdf",
         "observacoes":  null,
         "perfil":  ["Clientes Ativos"],
-        "amostra_tamanho":  40
+        "amostra_tamanho":  40,
+        "n_grupos_focais":  4,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Natura",
@@ -351,7 +407,9 @@ export const PRECOS = [
         "arquivo":  "01 - 2026 - OCR - Natura - R$11.892_PARTICIPE PESQUISAS.pdf",
         "observacoes":  null,
         "perfil":  ["Consumidoras de Beleza/Skincare"],
-        "amostra_tamanho":  24
+        "amostra_tamanho":  24,
+        "n_grupos_focais":  4,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Natura",
@@ -363,7 +421,9 @@ export const PRECOS = [
         "arquivo":  "01-2026 - OCR - Natura - R$10.800_ANDREA LOPES.pdf",
         "observacoes":  null,
         "perfil":  ["Consumidoras de Beleza/Skincare"],
-        "amostra_tamanho":  24
+        "amostra_tamanho":  24,
+        "n_grupos_focais":  4,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Natura",
@@ -375,7 +435,9 @@ export const PRECOS = [
         "arquivo":  "02 - 2026 - ORC - NATURA - R$15.450_ON THE GO.pdf",
         "observacoes":  "Proposta datada de 12/02/2026, validade de 15 dias.",
         "perfil":  ["Consumidoras de Beleza/Skincare","Consumidor Geral"],
-        "amostra_tamanho":  750
+        "amostra_tamanho":  750,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Nintendo",
@@ -387,7 +449,9 @@ export const PRECOS = [
         "arquivo":  "Orcamento_996_AC_Company_LTDA_Nintendo V5_ANTARA .pdf",
         "observacoes":  null,
         "perfil":  ["Jogadores/Gamers","Decisores B2B"],
-        "amostra_tamanho":  70
+        "amostra_tamanho":  70,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  14
     },
     {
         "cliente":  "Nintendo",
@@ -399,7 +463,9 @@ export const PRECOS = [
         "arquivo":  "Proposta QUANTI - OTG+AC - Projeto Gamers .pdf",
         "observacoes":  "Valor de tabela era R$23.960,00, negociado para R$19.800,00 (valor usado aqui). Há item opcional de processamento de dados por R$4.000,00, não incluído no total.",
         "perfil":  ["Jogadores/Gamers","Pais/Responsáveis"],
-        "amostra_tamanho":  1200
+        "amostra_tamanho":  1200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Nintendo",
@@ -411,7 +477,9 @@ export const PRECOS = [
         "arquivo":  "238-26_Ana Couto_Nintendo_Pulse - SL ZYGON.pdf",
         "observacoes":  "Proposta original de tabela era R$20.000,00; conforme e-mail da Zygon (arquivo \u0027E-mail ZYGON Adicional de desconto aplicado em cima da proposta_ de 20k para 17k_15%.pdf\u0027, 31/07/2026), foi aplicado desconto de 15%, fechando em R$17.000,00 (valor usado aqui).",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Terral",
@@ -423,7 +491,9 @@ export const PRECOS = [
         "arquivo":  "Projeto Terral - QUALI - Participe Pesquisas - 03-2026.pdf",
         "observacoes":  null,
         "perfil":  ["Clientes Ativos","Não-Clientes/Concorrência"],
-        "amostra_tamanho":  12
+        "amostra_tamanho":  12,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "Terral",
@@ -435,7 +505,9 @@ export const PRECOS = [
         "arquivo":  "Projeto Terral - QUANTI - Painel TAP - 03-2026.pdf",
         "observacoes":  "Conforme comparativo de fornecedores da Ana Couto, este orçamento NÃO inclui processamento, banco de dados nem controle de qualidade (escopo mais restrito que os demais fornecedores).",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  600
+        "amostra_tamanho":  600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Terral",
@@ -447,7 +519,9 @@ export const PRECOS = [
         "arquivo":  "Proposta OTG-AC - Projeto Terral.pdf",
         "observacoes":  "Proposta com 3 opções de tamanho de amostra: 600 entrevistas = R$131.500,00 (valor usado aqui); 300 entrevistas = R$68.800,00; 240 entrevistas = R$56.200,00.",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  600
+        "amostra_tamanho":  600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Terral",
@@ -459,7 +533,9 @@ export const PRECOS = [
         "arquivo":  "Terral Brazil Panels.pdf",
         "observacoes":  "E-mail de 10/04/2026. Opção B (clientes + \u0027interessados\u0027) não foi orçada pelo fornecedor por inviabilidade sem listagem própria do cliente.",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  600
+        "amostra_tamanho":  600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Terral",
@@ -471,7 +547,9 @@ export const PRECOS = [
         "arquivo":  "Brazil Panels (Quanti)_Orçamento Terral_06.2026.pdf",
         "observacoes":  "Proposta revisada e mais recente (23/06/2026), com amostra reduzida (300 em vez de 600) em relação ao orçamento anterior de abril (R$35.900,00 para 600 entrevistas). O mesmo conteúdo também está salvo como imagem (Brazil Panels (Quanti)_Orçamento Terral_06.2026.png) — tratado como o mesmo orçamento, não duplicado.",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  300
+        "amostra_tamanho":  300,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Terral",
@@ -483,7 +561,9 @@ export const PRECOS = [
         "arquivo":  "Terral Toluna.pdf",
         "observacoes":  "Fornecedor declarou inviabilidade para o escopo completo desejado (600 entrevistas) por baixa incidência do perfil; valor de R$2.000,00 é o \u0027minimum fee\u0027 cobrado independentemente do volume coletado.",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  35
+        "amostra_tamanho":  35,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Terral",
@@ -495,7 +575,9 @@ export const PRECOS = [
         "arquivo":  "Netquest TERRAL.pdf",
         "observacoes":  "Nenhum valor final foi cotado nesta troca de e-mails — a conversa ficou em validação de viabilidade/amostra reduzida, sem fechamento de preço. Fornecedor considerado inviável para o escopo completo.",
         "perfil":  ["Compradores de Imóvel"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -507,7 +589,9 @@ export const PRECOS = [
         "arquivo":  "ANTARA - Orçamento 914 Afya - útima atualização 6 grupos + 12 entrevistas .pdf",
         "observacoes":  "Documento é um \u0027Pedido\u0027 (nº 914, 17/07/2026), não um orçamento. Está na pasta Escolhidos, indicando ser a versão vencedora/atualizada com este fornecedor.",
         "perfil":  ["Médicos"],
-        "amostra_tamanho":  54
+        "amostra_tamanho":  54,
+        "n_grupos_focais":  6,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "AFYA",
@@ -519,7 +603,9 @@ export const PRECOS = [
         "arquivo":  "Orcamento ANTARA_989_AC_Company_LTDA_Afya.pdf",
         "observacoes":  "Orçamento nº 989 (17/07/2026), pasta Escolhidos. Amostra menor que o Pedido 914 do mesmo fornecedor — parece ser um cenário alternativo/anterior.",
         "perfil":  ["Médicos"],
-        "amostra_tamanho":  30
+        "amostra_tamanho":  30,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  9
     },
     {
         "cliente":  "AFYA",
@@ -531,7 +617,9 @@ export const PRECOS = [
         "arquivo":  "2.000 respondentes_orçamento Brazil Panels_ AFYA_MAIO2026.pdf",
         "observacoes":  "Valor total deixado null pois depende do número de ondas contratadas (não confirmado no documento). Cenários possíveis: 2 ondas = R$225.900,00; 4 ondas = R$449.300,00. Proposta original de 28/05/2026.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  2000
+        "amostra_tamanho":  2000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -543,7 +631,9 @@ export const PRECOS = [
         "arquivo":  "AMOSTRA ATUALIZADA QUANTI_PNG Orçamento Afya - Brazil Panels 2.200 respondentes.png",
         "observacoes":  "Revisão confirmada pelo fornecedor em 10/06/2026 (versão da proposta original de 28/05/2026). Está na pasta Escolhidos = versão vencedora. Cenários: 2 ondas = R$246.600,00; 4 ondas = R$490.600,00. Total deixado null por depender do nº de ondas.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  2200
+        "amostra_tamanho":  2200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -555,7 +645,9 @@ export const PRECOS = [
         "arquivo":  "Orcamento_953_AC_Company_LTDA_ Completo.pdf",
         "observacoes":  "Orçamento nº 953 (24/04/2026), versão \u0027Completa\u0027 — inclui moderação/análise/apresentação e transcrição, ausentes no Orçamento 954 (mesma amostra, mesmo fornecedor).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  33
+        "amostra_tamanho":  33,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  3
     },
     {
         "cliente":  "AFYA",
@@ -567,7 +659,9 @@ export const PRECOS = [
         "arquivo":  "Proposta OTG-AC - Projeto Afya_v2.pdf",
         "observacoes":  "Valor é POR ONDA, não total do projeto. Desconto de 5% (R$232.750,00/onda) se aprovadas 2 ondas up-front. Proposta datada 05/05/2026; o resumo do documento cita \u0027700 entrevistas por onda\u0027 mas a soma das bases detalhadas totaliza 1.000 (confirmado no comparativo em docx).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -579,7 +673,9 @@ export const PRECOS = [
         "arquivo":  "QUALI_ Recrutamento+ Incentivo_ANTARA_AFYA.pdf",
         "observacoes":  "Orçamento nº 954 (24/04/2026). Mesma amostra do Orçamento 953 (mesmo fornecedor), mas SEM moderação/análise/apresentação nem transcrição — versão mais enxuta.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  33
+        "amostra_tamanho":  33,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  3
     },
     {
         "cliente":  "AFYA",
@@ -591,7 +687,9 @@ export const PRECOS = [
         "arquivo":  "2.000 respondentes - proposta_brazil_panels_afya_awareness_05.2026.docx",
         "observacoes":  "Arquivo com conteúdo duplicado do PDF \u00272.000 respondentes_orçamento Brazil Panels_ AFYA_MAIO2026.pdf\u0027. Total depende do nº de ondas (não confirmado).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  2000
+        "amostra_tamanho":  2000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -603,7 +701,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamentos_Qualitativo_Antara vs Andrea_AFYA.docx",
         "observacoes":  "Parte de comparativo interno entre 2 fornecedores (Participe Pesquisas/Antara vs Qualy Vortice/Andrea) para a mesma amostra.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  51
+        "amostra_tamanho":  51,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  9
     },
     {
         "cliente":  "AFYA",
@@ -615,7 +715,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamentos_Qualitativo_Antara vs Andrea_AFYA.docx",
         "observacoes":  "Ver também \u0027ORÇAMENTO Qualy Vortice Ana Couto.docx\u0027, com os preços unitários que compõem este total.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  51
+        "amostra_tamanho":  51,
+        "n_grupos_focais":  3,
+        "n_entrevistas":  9
     },
     {
         "cliente":  "AFYA",
@@ -627,7 +729,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamento_Quantitativo_On The GO vs Brazil Panels_AFYA.docx",
         "observacoes":  "Mesmo fornecedor/valor de \u0027Proposta OTG-AC - Projeto Afya_v2.pdf\u0027, aqui com 1.000 respondentes/onda explícitos. Desconto de 5% (R$232.750,00/onda) se 2 ondas aprovadas up-front.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -639,7 +743,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo de Orçamento_Quantitativo_On The GO vs Brazil Panels_AFYA.docx",
         "observacoes":  "Orçamento informal, negociado via WhatsApp e AINDA NÃO FORMALIZADO. Custo por respondente R$64,00. Perfis de alunos/ex-alunos dependem de listagem fornecida pela Afya. Distinto da proposta formal do mesmo fornecedor para 2.000 entrevistas/onda (R$111.700-114.200/onda).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -651,7 +757,9 @@ export const PRECOS = [
         "arquivo":  "ORÇAMENTO Qualy Vortice  Ana Couto.docx",
         "observacoes":  "Arquivo traz apenas valores unitários por item, sem total explícito no texto extraído. O total já calculado para este fornecedor/amostra (12 grupos, 51 participantes) é R$53.380,00, conforme \u0027Comparativo de Orçamentos_Qualitativo_Antara vs Andrea_AFYA.docx\u0027.",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "AFYA",
@@ -663,7 +771,9 @@ export const PRECOS = [
         "arquivo":  "Planilha_Orcamento_Afya_04.2026.xlsx",
         "observacoes":  "Extraído da aba de comparação de orçamentos de uma planilha-modelo interna. Cenários de recorrência: semestral (2 ondas/ano) = R$16.800,00/ano; trimestral (4 ondas/ano) = R$33.600,00/ano. Escopo de amostra (700 entrevistas) difere dos outros orçamentos quanti da Afya (2.000/2.200/1.000 entrevistas).",
         "perfil":  ["Vestibulandos","Pais/Responsáveis","Alunos/Ex-alunos","Médicos"],
-        "amostra_tamanho":  700
+        "amostra_tamanho":  700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Avon",
@@ -675,7 +785,9 @@ export const PRECOS = [
         "arquivo":  "[MOB] Quali_Grupos e Diários_BR+MX.pdf",
         "observacoes":  "Soma dos 4 itens de valor do orçamento: grupo online Brasil R$3.887,00 x6 = R$23.322,00; diário Brasil R$799,25 x5 = R$3.996,25; grupo online México R$10.177,50 x6 = R$61.065,00; diário México R$1.989,50 x5 = R$9.947,50. Pagamento em 2 parcelas (40%/60%).",
         "perfil":  ["Jovens/Adolescentes","Pais/Responsáveis"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Avon",
@@ -687,7 +799,9 @@ export const PRECOS = [
         "arquivo":  "[OTG] Quanti_Avon_ BR-MX.pdf",
         "observacoes":  "Opcional (não incluso no total): processamento de dados em Excel/SPSS por R$3.900,00 por país. Proposta datada 26/06/2026.",
         "perfil":  ["Jovens/Adolescentes"],
-        "amostra_tamanho":  800
+        "amostra_tamanho":  800,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -699,7 +813,9 @@ export const PRECOS = [
         "arquivo":  "comparativo_cacau_show_quanti_atualizado_final.png",
         "observacoes":  "Arquivo na pasta Old (versão superada). Valores estimados internamente pelo time, não confirmados pelo fornecedor (nota no próprio documento).",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  12600
+        "amostra_tamanho":  12600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -711,7 +827,9 @@ export const PRECOS = [
         "arquivo":  "comparativo_cacau_show_quanti_atualizado_final.png",
         "observacoes":  "Arquivo na pasta Old (versão superada). Valores estimados internamente, não confirmados pelo fornecedor.",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  12600
+        "amostra_tamanho":  12600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -723,7 +841,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quanti_brazil_panels.png",
         "observacoes":  "Pasta Old — versão anterior à confirmação final do fornecedor (ver arquivo v3, com valor CONFIRMADO).",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  12600
+        "amostra_tamanho":  12600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -735,7 +855,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quanti_brazil_panels_v3_QUANTI.png",
         "observacoes":  "Valor CONFIRMADO diretamente pelo fornecedor (nota no documento). Pasta Old — superado pela v4 (Brand Pulse passou de mensal/12 ondas para bimestral/6 ondas).",
         "perfil":  ["Consumidores de Chocolate"],
-        "amostra_tamanho":  3600
+        "amostra_tamanho":  3600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -747,7 +869,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento comparativo_Cacau Show_QUANTI.png",
         "observacoes":  "Pasta Old. Cenários e nº de respondentes diferentes de outro comparativo Toluna vs Offerwise no mesmo projeto (aqui trimestral/400resp; no outro, quadrimestral/550resp) — parece ser iteração anterior de escopo.",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  12800
+        "amostra_tamanho":  12800,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -759,7 +883,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento comparativo_Cacau Show_QUANTI.png",
         "observacoes":  "Pasta Old. Ver observação do registro Toluna do mesmo arquivo.",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  12800
+        "amostra_tamanho":  12800,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -771,7 +897,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quanti_brazil_panels_v4_bimestral.png",
         "observacoes":  "Versão mais atual (fora da pasta Old). Fornecedor reduziu Brand Pulse de 12 ondas mensais para 6 bimestrais, cobrando R$400,00 a mais por onda; total combinado caiu de R$74.700,00 (v3) para R$53.100,00.",
         "perfil":  ["Consumidores de Chocolate"],
-        "amostra_tamanho":  2700
+        "amostra_tamanho":  2700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -783,7 +911,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_social_listening_zygon.png",
         "observacoes":  "Prazo de entrega D+20 dias úteis. Mesmo orçamento também descrito em detalhe no arquivo \u0027224-26_Ana Couto_Cacau Show_ Zygon Pulse.pdf\u0027.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -795,7 +925,9 @@ export const PRECOS = [
         "arquivo":  "224-26_Ana Couto_Cacau Show_ Zygon Pulse.pdf",
         "observacoes":  "Deck de apresentação completo da Zygon; mesmo valor e escopo do resumo em PNG (orcamento_social_listening_zygon.png) — conteúdo duplicado.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cacau Show",
@@ -807,7 +939,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento comparativo_Cacau Show_QUALI.png",
         "observacoes":  "Comparativo interno entre 2 fornecedores para a mesma amostra (ver também Qualy Vortice, mesmo arquivo).",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  56
+        "amostra_tamanho":  56,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Cacau Show",
@@ -819,7 +953,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento comparativo_Cacau Show_QUALI.png",
         "observacoes":  "Cerca de 30% mais barato que Participe Pesquisas para a mesma amostra, segundo o comparativo interno.",
         "perfil":  ["Consumidores de Chocolate","Consumidor Geral"],
-        "amostra_tamanho":  56
+        "amostra_tamanho":  56,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Cacau Show",
@@ -831,7 +967,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento_Desk Research_Isadora.png",
         "observacoes":  "Prestação de serviço por freelancer (não é agência/fornecedor formal). Prazo de 7 dias úteis.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Centauro",
@@ -843,7 +981,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quanti_centauro_tracking - Painel TAP.docx",
         "observacoes":  "Valor refere-se a 1 onda isolada. Fornecedor ofereceu pacotes multiondas com o mesmo valor unitário (sem desconto real): 2 ondas R$31.200, 4 ondas R$62.400, 6 ondas R$93.600. Cronograma 15 dias úteis, pagamento em 60 dias, tributos inclusos. Mesmos valores aparecem replicados no arquivo Comparativo_Centauro_PainelTAP.png (slide-resumo interno).",
         "perfil":  ["Compradores de Artigo Esportivo"],
-        "amostra_tamanho":  1200
+        "amostra_tamanho":  1200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cia Muller",
@@ -855,7 +995,9 @@ export const PRECOS = [
         "arquivo":  "Cia Muller ANACOUTOMOB RCRTMNT_MOB INC.pdf",
         "observacoes":  null,
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  8
+        "amostra_tamanho":  8,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  8
     },
     {
         "cliente":  "Cia Muller",
@@ -867,7 +1009,9 @@ export const PRECOS = [
         "arquivo":  "Cia Muller ANACOUTOMOB RCRTMNT_MOB INC.pdf",
         "observacoes":  "Opção alternativa de recrutamento (6 pessoas/grupo) à cotação de 8 pessoas/grupo do mesmo fornecedor (ver outro registro).",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  48
+        "amostra_tamanho":  48,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Cia Muller",
@@ -879,7 +1023,9 @@ export const PRECOS = [
         "arquivo":  "Cia Muller ANACOUTOMOB RCRTMNT_MOB INC.pdf",
         "observacoes":  "Opção alternativa de recrutamento (8 pessoas/grupo) à cotação de 6 pessoas/grupo do mesmo fornecedor (ver outro registro).",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  64
+        "amostra_tamanho":  64,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Cia Muller",
@@ -891,7 +1037,9 @@ export const PRECOS = [
         "arquivo":  "Cia Muller ANACOUTOMOB RCRTMNT_MOB INC.pdf",
         "observacoes":  "Valor único não discriminado por grupo/entrevista individualmente.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  8
     },
     {
         "cliente":  "Cia Muller",
@@ -903,7 +1051,9 @@ export const PRECOS = [
         "arquivo":  "Proposta QUANTI e QUALI - On the go - Projeto Cia Muller.pdf",
         "observacoes":  "Processamento de dados adicional (SPSS/Excel) é opcional, custa R$4.000,00 à parte. Impostos inclusos (16,94%). Pasta \u0027Comparativo_Orcamentos_Cia_Muller.xlsx\u0027 também traz uma opção \u0027com processamento\u0027 somando R$24.600,00 (20.600 + 4.000).",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cia Muller",
@@ -915,7 +1065,9 @@ export const PRECOS = [
         "arquivo":  "Proposta QUANTI e QUALI - On the go - Projeto Cia Muller.pdf",
         "observacoes":  "Moderação é opcional e cobrada à parte (R$1.500,00 por grupo).",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  56
+        "amostra_tamanho":  56,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Cia Muller",
@@ -927,7 +1079,9 @@ export const PRECOS = [
         "arquivo":  "Proposta QUANTI e QUALI - On the go - Projeto Cia Muller.pdf",
         "observacoes":  "Moderação é opcional e cobrada à parte (R$750,00 por entrevista).",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  8
+        "amostra_tamanho":  8,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  8
     },
     {
         "cliente":  "Cia Muller",
@@ -939,7 +1093,9 @@ export const PRECOS = [
         "arquivo":  "Old/Proposta QUANTI e QUALI - On the go - Projeto Cia Muller.pdf",
         "observacoes":  "Arquivo salvo na subpasta \u0027Old\u0027; valor idêntico ao da proposta mais recente (mesma pasta principal), aparentemente versão duplicada/anterior.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cia Muller",
@@ -951,7 +1107,9 @@ export const PRECOS = [
         "arquivo":  "Old/Proposta QUANTI e QUALI - On the go - Projeto Cia Muller.pdf",
         "observacoes":  "Versão salva na subpasta \u0027Old\u0027 com valor diferente (mais baixo) da proposta mais recente do mesmo fornecedor (R$53.200,00) — provável versão anterior/superada.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  56
+        "amostra_tamanho":  56,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Cia Muller",
@@ -963,7 +1121,9 @@ export const PRECOS = [
         "arquivo":  "Old/Proposta QUANTI e QUALI - On the go - Projeto Cia Muller.pdf",
         "observacoes":  "Valor extraído com confiança do texto do PDF, mas o texto exibe \u002748 Entrevistas em Profundidade Online\u0027 enquanto a amostra-alvo definida no mesmo documento é de 8 EPs (2 por perfil x 4 perfis) — possível erro de digitação/OCR no arquivo original. Confirmar quantidade real com o fornecedor antes de usar este valor para decisão.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cia Muller",
@@ -975,7 +1135,9 @@ export const PRECOS = [
         "arquivo":  "Orcamento_Antara_ QUALI - Cia Müller.pdf",
         "observacoes":  "Orçamento Nº 1003, emitido em 17/08/2026, com todos os itens (recrutamento, incentivo, moderação/análise/apresentação e transcrição) discriminados e somados no próprio documento.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  64
+        "amostra_tamanho":  64,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  8
     },
     {
         "cliente":  "Cia Muller",
@@ -987,7 +1149,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Toluna QUANTI_Cia Muller.pdf",
         "observacoes":  "Cotação enviada por e-mail (BID 5531431) em 18/08/2026. Minimum fee de R$2.000,00; validade de 90 dias.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cia Muller",
@@ -999,7 +1163,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Toluna QUANTI_Cia Muller.pdf",
         "observacoes":  "Planilha comparativa interna observa que normalmente o time Valometry/Ana Couto é quem faz o relatório, então esta opção pode não ser necessária.",
         "perfil":  ["Consumidores de Bebida Alcoólica"],
-        "amostra_tamanho":  1000
+        "amostra_tamanho":  1000,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Cia Muller",
@@ -1011,7 +1177,9 @@ export const PRECOS = [
         "arquivo":  "Social Listening - ZYGON_Cia Muller.pdf",
         "observacoes":  null,
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1023,7 +1191,9 @@ export const PRECOS = [
         "arquivo":  "quali_ON THE GO.png",
         "observacoes":  "Cotação informal recebida por mensagem em 07/08/2026, ainda não formalizada em proposta/PDF pelo fornecedor. Não está confirmado se moderação/condução das sessões está incluída.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  42
+        "amostra_tamanho":  42,
+        "n_grupos_focais":  5,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1035,7 +1205,9 @@ export const PRECOS = [
         "arquivo":  "Foz_Iguacu__Fornecedores_QUALI.xlsx",
         "observacoes":  "Cronograma de 12 a 14 dias úteis para recrutar e agendar as metodologias. Pagamento em 2 parcelas (40% na aprovação, 60% em até 30 dias após entrega).",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  42
+        "amostra_tamanho":  42,
+        "n_grupos_focais":  5,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1047,7 +1219,9 @@ export const PRECOS = [
         "arquivo":  "Foz_Iguacu__Fornecedores_QUALI.xlsx",
         "observacoes":  "Relatório consolidado é opcional, custa +R$7.000,00 sobre a opção sem relatório.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  42
+        "amostra_tamanho":  42,
+        "n_grupos_focais":  5,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1059,7 +1233,9 @@ export const PRECOS = [
         "arquivo":  "otg_regional.png",
         "observacoes":  "Cotação informal recebida por e-mail em 07/08/2026, ainda não formalizada em PDF. Valor unitário R$221,67/entrevista.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  600
+        "amostra_tamanho":  600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1071,7 +1247,9 @@ export const PRECOS = [
         "arquivo":  "toluna_regional.png",
         "observacoes":  "Cotação parcial recebida por e-mail em 07/08/2026 — cobre apenas a população local; o orçamento do bloco multipaís foi enviado separadamente (ver outros registros). Valor unitário R$147,77/entrevista.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  600
+        "amostra_tamanho":  600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1083,7 +1261,9 @@ export const PRECOS = [
         "arquivo":  "offerwise_regional.png",
         "observacoes":  "Fornecedor NÃO garante volume (best effort, sem mínimo); os R$25.000,00 são uma estimativa da agência assumindo que as 600 entrevistas sejam de fato alcançadas, não é um compromisso do fornecedor. Cotação informal por e-mail em 07/08/2026.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  600
+        "amostra_tamanho":  600,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1095,7 +1275,9 @@ export const PRECOS = [
         "arquivo":  "otg_multipais.png",
         "observacoes":  "Cotação informal por e-mail em 07/08/2026. Valor unitário R$52,99/entrevista.",
         "perfil":  ["Moradores/População Local","Público Multipaís/Internacional"],
-        "amostra_tamanho":  2900
+        "amostra_tamanho":  2900,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1107,7 +1289,9 @@ export const PRECOS = [
         "arquivo":  "otg_multipais.png",
         "observacoes":  "Valor unitário R$58,59/entrevista, mais caro por entrevista que o Cenário A apesar do total menor.",
         "perfil":  ["Moradores/População Local","Público Multipaís/Internacional"],
-        "amostra_tamanho":  1900
+        "amostra_tamanho":  1900,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1119,7 +1303,9 @@ export const PRECOS = [
         "arquivo":  "toluna_multipais.png",
         "observacoes":  "Cotação recebida por e-mail em 12/08/2026 (BID 5520999). Toluna não tem painel próprio no Paraguai (depende de painéis parceiros). Valor unitário R$49,82/entrevista.",
         "perfil":  ["Moradores/População Local","Público Multipaís/Internacional"],
-        "amostra_tamanho":  2900
+        "amostra_tamanho":  2900,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1131,7 +1317,9 @@ export const PRECOS = [
         "arquivo":  "toluna_multipais.png",
         "observacoes":  "Valor unitário R$53,47/entrevista.",
         "perfil":  ["Moradores/População Local","Público Multipaís/Internacional"],
-        "amostra_tamanho":  2200
+        "amostra_tamanho":  2200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1143,7 +1331,9 @@ export const PRECOS = [
         "arquivo":  "offerwise_multipais.png",
         "observacoes":  "Amostra internacional é \u0027queda natural do painel\u0027 — sem garantia de atingir a totalidade solicitada. Cotação por e-mail em 07/08/2026.",
         "perfil":  ["Moradores/População Local","Público Multipaís/Internacional"],
-        "amostra_tamanho":  1500
+        "amostra_tamanho":  1500,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Foz do Iguaçu",
@@ -1155,7 +1345,9 @@ export const PRECOS = [
         "arquivo":  "offerwise_multipais.png",
         "observacoes":  "Mesma ressalva de não garantia da amostra internacional.",
         "perfil":  ["Moradores/População Local","Público Multipaís/Internacional"],
-        "amostra_tamanho":  1500
+        "amostra_tamanho":  1500,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Grupo Fleury",
@@ -1167,7 +1359,9 @@ export const PRECOS = [
         "arquivo":  "Quali - MOB_Fleury.pdf",
         "observacoes":  "Valor = R$18.676,00 (14 entrevistas médicos, R$1.334,00 cada) + R$26.404,00 (7 grupos focais pacientes, R$3.772,00 cada). Pagamento 40% na aprovação + 60% em até 30 dias após entrega. Prazo de 12 dias para recrutar e agendar. Fornecedor não abriu breakdown de cachê por público. Confirmado também na planilha consolidada \u0027Quali e Quanti consolidado BP e MOB_Fleury.xlsx\u0027.",
         "perfil":  ["Médicos","Pacientes"],
-        "amostra_tamanho":  63
+        "amostra_tamanho":  63,
+        "n_grupos_focais":  7,
+        "n_entrevistas":  14
     },
     {
         "cliente":  "Grupo Fleury",
@@ -1179,7 +1373,9 @@ export const PRECOS = [
         "arquivo":  "Quanti - BP_Fleury.png",
         "observacoes":  "Registro interno criado a partir de mensagem de WhatsApp recebida da Brazil Panels em 20/08/2026 — fornecedor não formalizou proposta em documento; confirmar/formalizar por escrito antes de aprovar. Também confirmado na planilha consolidada \u0027Quali e Quanti consolidado BP e MOB_Fleury.xlsx\u0027. Ponto de atenção: cronograma de 8 semanas pode ser apertado para o prazo geral do projeto.",
         "perfil":  ["Médicos","Pacientes"],
-        "amostra_tamanho":  2250
+        "amostra_tamanho":  2250,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "HDI",
@@ -1191,7 +1387,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Atualizado HDI Yellum_05.2026_BRAZIL PANELS_R$221.398.pdf",
         "observacoes":  "Pagamento em 2 parcelas (30/06/2026 e 30/07/2026). Desconto total de R$3.798,00 aplicado nas 2as ondas dos trackings. Proposta datada de 22/05/2026, contato Teresa Cristina/Brazil Panels.",
         "perfil":  ["Clientes Ativos","Corretores"],
-        "amostra_tamanho":  7732
+        "amostra_tamanho":  7732,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "HDI",
@@ -1203,7 +1401,9 @@ export const PRECOS = [
         "arquivo":  "Último Orçamento_Painel TAP_YELUM HDI_R$120.600,00_05.2026.docx",
         "observacoes":  "IMPORTANTE: escopo NÃO inclui tabulação, análise nem relatório/dashboard — ficam a cargo do cliente ou terceiros (diferença relevante frente à proposta da Brazil Panels, que inclui tudo). Programação inclusa sem custo. Pagamento em 2 parcelas (30/06 e 30/07/2026).",
         "perfil":  ["Clientes Ativos","Corretores"],
-        "amostra_tamanho":  7710
+        "amostra_tamanho":  7710,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Intelbras",
@@ -1215,7 +1415,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quali_intelbras_ Participe.docx",
         "observacoes":  "Versão original/base (compare com \u0027Opção 2\u0027, mais barata). Prazo total 20 dias úteis (10 recrutamento + 10 campo). Pagamento por depósito bancário, validade da proposta 90 dias. Proposta de 10/05/2026, contato Antara/Participe Pesquisas.",
         "perfil":  ["Revendedores (B2B)"],
-        "amostra_tamanho":  104
+        "amostra_tamanho":  104,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  24
     },
     {
         "cliente":  "Intelbras",
@@ -1227,7 +1429,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quali_intelbras_ Participe - Opção 2.docx",
         "observacoes":  "\u0027Opção 2\u0027 — alternativa mais barata que reduz o custo dos IDIs ao não recrutar backup extra para as entrevistas. Mesmas condições comerciais e data (10/05/2026) da outra versão (Participe Pesquisas).",
         "perfil":  ["Revendedores (B2B)"],
-        "amostra_tamanho":  80
+        "amostra_tamanho":  80,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  24
     },
     {
         "cliente":  "Intelbras",
@@ -1239,7 +1443,9 @@ export const PRECOS = [
         "arquivo":  "orcamento_quanti_intelbras_revendedores (1).docx",
         "observacoes":  "Prazo total 40 dias úteis (3 programação + 25 campo + 12 processamento/relatório). Pagamento 50% na aprovação e 50% após entrega. Validade da proposta 60 dias. Proposta de 12/05/2026, contato Teresa Meirelles/Brazil Panels.",
         "perfil":  ["Revendedores (B2B)"],
-        "amostra_tamanho":  1580
+        "amostra_tamanho":  1580,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Light",
@@ -1251,7 +1457,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Light - Painel TAP.png",
         "observacoes":  "Valor parcialmente estimado — fornecedor não garante atingir os 160 respondentes do Vale do Paraíba; número real e valor final só serão confirmados em campo. Prazo informado de 15 dias úteis. Comunicado informalmente via WhatsApp, sujeito a confirmação em proposta/PO formal. Mesmo valor também aparece no comparativo \u0027Comparativo_Quanti_Light_3Fornecedores.png\u0027.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  320
+        "amostra_tamanho":  320,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Light",
@@ -1263,7 +1471,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Brazil Panels - Light.png",
         "observacoes":  "Prazo estimado de ~15 dias úteis (3 dias de programação + 2 semanas de coleta + 2 dias de consistência/envio do banco de dados). Valor comunicado informalmente pelo fornecedor, sujeito a confirmação em proposta/PO formal. Mesmo valor também aparece no comparativo \u0027Comparativo_Quanti_Light_3Fornecedores.png\u0027.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  320
+        "amostra_tamanho":  320,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Light",
@@ -1275,7 +1485,9 @@ export const PRECOS = [
         "arquivo":  "Custo_QuestionPro_Light.png",
         "observacoes":  "Valores originalmente em dólar (US$1.160,00 total) — conversão para R$ é referencial (câmbio USD/BRL de aprox. 5,18) e pode variar conforme o câmbio na data de fechamento. Prazo de 10 dias úteis (3 de programação + 7 de campo). Mesmo valor também aparece no comparativo \u0027Comparativo_Quanti_Light_3Fornecedores.png\u0027.",
         "perfil":  ["Moradores/População Local"],
-        "amostra_tamanho":  320
+        "amostra_tamanho":  320,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Nintendo",
@@ -1287,7 +1499,9 @@ export const PRECOS = [
         "arquivo":  "Brazil Panels - QUANTI.png",
         "observacoes":  "Mesmo valor total (R$19.700,00) aparece em 3 versões anteriores na subpasta \u0027Old\u0027 (comparativo_nintendo_quanti_1200.png, comparativo_nintendo_quanti_brazil_panels.png, orcamento_nintendo_brazilpanels.png), com pequenas variações no detalhamento do prazo (20, 23 ou 24 dias úteis conforme a versão) — o valor total é idêntico em todas. Amostra mantida em n=1.200 (aumento para 2.200 foi descartado por falta de prazo de campo).",
         "perfil":  ["Jogadores/Gamers","Pais/Responsáveis"],
-        "amostra_tamanho":  1200
+        "amostra_tamanho":  1200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Nintendo",
@@ -1299,7 +1513,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento TAP(Quanti)_Nintendo_06.2026.pdf",
         "observacoes":  "Encontrado na subpasta \u0027Old\u0027 — possivelmente versão superada/não escolhida frente ao orçamento da Brazil Panels (R$19.700,00), que está na pasta atual. Pedido formal nº S01918 de 23/06/2026, prazo de 15 dias úteis, contato Daniel Silva/Painel TAP. Mesmo conteúdo duplicado em \u0027Orçamento TAP(Quanti)_Nintendo_06.2026.png\u0027.",
         "perfil":  ["Jogadores/Gamers","Pais/Responsáveis"],
-        "amostra_tamanho":  1200
+        "amostra_tamanho":  1200,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Nintendo",
@@ -1311,7 +1527,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Antara(Quali)_Nintendo_06.2026.pdf",
         "observacoes":  "Orçamento nº 975 de 22/06/2026, contato Antara Mendonça/Participe Pesquisas. Pagamento por transferência bancária, vencimento 22/06/2026. Mesmo conteúdo duplicado em \u0027Orçamento Antara(Quali)_Nintendo_06.2026.png\u0027.",
         "perfil":  ["Jogadores/Gamers"],
-        "amostra_tamanho":  158
+        "amostra_tamanho":  158,
+        "n_grupos_focais":  8,
+        "n_entrevistas":  2
     },
     {
         "cliente":  "Poliedro",
@@ -1323,7 +1541,9 @@ export const PRECOS = [
         "arquivo":  "Poliedro - Comparativo fornecedores_QUALI.png",
         "observacoes":  "Menor valor entre 3 fornecedores comparados. Valores e prazo (15 dias úteis) recebidos informalmente por WhatsApp, sem orçamento formal em PDF.",
         "perfil":  ["Educadores"],
-        "amostra_tamanho":  24
+        "amostra_tamanho":  24,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  24
     },
     {
         "cliente":  "Poliedro",
@@ -1335,7 +1555,9 @@ export const PRECOS = [
         "arquivo":  "Poliedro - orçamento MOBinc.pdf",
         "observacoes":  "Proposta formal (deck institucional com página de orçamento). Inclui planilha de acompanhamento, termos de confidencialidade, apoio na recepção e teste de conectividade. Pagamento 40% à vista + 60% em até 30 dias. Prazo 10-12 dias.",
         "perfil":  ["Educadores"],
-        "amostra_tamanho":  24
+        "amostra_tamanho":  24,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  24
     },
     {
         "cliente":  "Poliedro",
@@ -1347,7 +1569,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Poliedro - Participe pesquisas.pdf",
         "observacoes":  "Orçamento formal nº995 (GestãoClick), 29/07/2026. Maior valor dos 3 comparados. Exige base mínima de 720 contatos válidos. Pagamento único por transferência bancária. Prazo de recrutamento 12 dias úteis.",
         "perfil":  ["Educadores"],
-        "amostra_tamanho":  24
+        "amostra_tamanho":  24,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  24
     },
     {
         "cliente":  "Poliedro",
@@ -1359,7 +1583,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento consolidado - POLIEDRO - Freelas + Quali.png",
         "observacoes":  "Recrutamento e incentivo já confirmados com a Qualy Vórtice para esta amostra presencial. Valores informados pelo fornecedor, sujeitos a confirmação final em proposta/PO.",
         "perfil":  ["Educadores"],
-        "amostra_tamanho":  20
+        "amostra_tamanho":  20,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  20
     },
     {
         "cliente":  "Poliedro",
@@ -1371,7 +1597,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento consolidado - POLIEDRO - Freelas + Quali.png",
         "observacoes":  "Opção alternativa a Isadora para a mesma função (coordenação/moderação SP) — os valores não se somam, escolhe-se apenas uma.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Poliedro",
@@ -1383,7 +1611,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento consolidado - POLIEDRO - Freelas + Quali.png",
         "observacoes":  "Opção alternativa a Amanda para a mesma função (coordenação/moderação SP) — cenário mais barato do projeto.",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Poliedro",
@@ -1395,7 +1625,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento consolidado - POLIEDRO - Freelas + Quali.png",
         "observacoes":  "Nome do profissional não informado no documento (\u0027Opção 1\u0027). Valor \u0027até R$7.000\u0027; escolha entre Opção 1 e Opção 2 não impacta o orçamento (mesma estimativa).",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Poliedro",
@@ -1407,7 +1639,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento consolidado - POLIEDRO - Freelas + Quali.png",
         "observacoes":  "Nome do profissional não informado no documento (\u0027Opção 2\u0027). Alternativa à Opção 1, mesma estimativa de preço (até R$7.000).",
         "perfil":  [],
-        "amostra_tamanho":  null
+        "amostra_tamanho":  null,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Renner",
@@ -1419,7 +1653,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Mob Inc_Renner.pdf",
         "observacoes":  "R$3.956,00 por grupo x 14 grupos. Pagamento 40% à vista + 60% em até 30 dias.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  98
+        "amostra_tamanho":  98,
+        "n_grupos_focais":  14,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Renner",
@@ -1431,7 +1667,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Renner_Grupos - Participe Pesquisas.pdf",
         "observacoes":  "Orçamento formal nº986 (GestãoClick), 02/07/2026. Pagamento único por transferência bancária.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  98
+        "amostra_tamanho":  98,
+        "n_grupos_focais":  14,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Renner",
@@ -1443,7 +1681,9 @@ export const PRECOS = [
         "arquivo":  "Comparativo_Quali_Renner_3Fornecedores.png",
         "observacoes":  "Menor valor entre os 3 fornecedores comparados para grupos focais. Prazo de recrutamento: 10 dias.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  98
+        "amostra_tamanho":  98,
+        "n_grupos_focais":  14,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Renner",
@@ -1455,7 +1695,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Mob Inc_Renner.pdf",
         "observacoes":  "R$999,35 por Home Invasion x 12 entrevistas. Pagamento de incentivos aos participantes é responsabilidade do fornecedor.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  12
+        "amostra_tamanho":  12,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "Renner",
@@ -1467,7 +1709,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Renner_Etnográfica - Participe Pesquisas.pdf",
         "observacoes":  "Orçamento formal nº987 (GestãoClick), 02/07/2026. Maior valor dos 3 fornecedores para esta metodologia.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  17
+        "amostra_tamanho":  17,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  17
     },
     {
         "cliente":  "Renner",
@@ -1479,7 +1723,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento_Qualy_Renner_HomeInvasion.png",
         "observacoes":  "Menor valor entre os 3 fornecedores para esta metodologia.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  12
+        "amostra_tamanho":  12,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  12
     },
     {
         "cliente":  "Renner",
@@ -1491,7 +1737,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Painel TAP_Renner.png",
         "observacoes":  "Menor valor entre os 3 fornecedores e prazo intermediário (15 dias úteis). Valor informado via WhatsApp, não formal.",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  1120
+        "amostra_tamanho":  1120,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Renner",
@@ -1503,7 +1751,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento Brazil Panels_Renner (1).png",
         "observacoes":  "Valor mais caro e prazo mais longo (~25 dias úteis) dos 3 fornecedores. Valor não formal, estimado (sem quebra por respondente).",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  1120
+        "amostra_tamanho":  1120,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Renner",
@@ -1515,7 +1765,9 @@ export const PRECOS = [
         "arquivo":  "Custo_QuestionPro_Renner.png",
         "observacoes":  "Câmbio USD/BRL de R$5,1756 (cotação referencial de 01/07/2026); valor final em R$ sujeito a variação cambial na data do fechamento. Prazo mais rápido dos 3 (8 dias úteis).",
         "perfil":  ["Consumidores de Moda/Varejo"],
-        "amostra_tamanho":  1120
+        "amostra_tamanho":  1120,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1527,7 +1779,9 @@ export const PRECOS = [
         "arquivo":  "ACOUBR_295427_V103_Netquest.pdf",
         "observacoes":  "Opção 1 da proposta consolidada Netquest (referência ACOUBR_295427, 29/05/2026). Valor com impostos inclusos. Escopo cobre apenas programação/campo; relatório e análises são da agência.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  2700
+        "amostra_tamanho":  2700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1539,7 +1793,9 @@ export const PRECOS = [
         "arquivo":  "ACOUBR_295427_V103_Netquest.pdf",
         "observacoes":  "Opção 2 da proposta consolidada Netquest. Valor com impostos inclusos.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  1750
+        "amostra_tamanho":  1750,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1551,7 +1807,9 @@ export const PRECOS = [
         "arquivo":  "ACOUBR_295427_V103_Netquest.pdf",
         "observacoes":  "Opção 3 da proposta. A própria Netquest sinaliza incerteza se este perfil é Seara ou também cobriria Margarinas (a confirmar).",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  150
+        "amostra_tamanho":  150,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1563,7 +1821,9 @@ export const PRECOS = [
         "arquivo":  "ACOUBR_295427_V103_Netquest.pdf",
         "observacoes":  "Opção 4. Economia de R$27.265,38 (~39%) frente a 10 ondas isoladas.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  1500
+        "amostra_tamanho":  1500,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1575,7 +1835,9 @@ export const PRECOS = [
         "arquivo":  "ACOUBR_295427_V103_Netquest.pdf",
         "observacoes":  "Opção 5 — a Netquest cotou o mesmo valor e descrição da Opção 3 (sem facial coding), gerando dúvida se facial coding está incluso sem custo, se faltou somar o adicional, ou se há ambiguidade de nomenclatura. Não confirmado.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  150
+        "amostra_tamanho":  150,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1587,7 +1849,9 @@ export const PRECOS = [
         "arquivo":  "ACOUBR_295427_V103_Netquest.pdf",
         "observacoes":  "Opção 6 da proposta consolidada.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  300
+        "amostra_tamanho":  300,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1599,7 +1863,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Margarinas_Painel Tap.pdf",
         "observacoes":  "Escopo apenas programação + coleta (relatório/análises pela agência).",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  2700
+        "amostra_tamanho":  2700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1611,7 +1877,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Pré teste_Painel Tap.pdf",
         "observacoes":  "1 onda isolada custaria R$1.950,00; pacote de 2 ondas R$3.900,00 (sem desconto adicional pelo pacote, segundo o fornecedor).",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  300
+        "amostra_tamanho":  300,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1623,7 +1891,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Pós teste Margarinas_Painel Tap.pdf",
         "observacoes":  "1 onda isolada R$1.950,00; pacote de 2 ondas R$3.900,00.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  300
+        "amostra_tamanho":  300,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1635,7 +1905,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Pós teste Seara_Painel Tap.pdf",
         "observacoes":  "1 onda isolada R$1.950,00; pacote de 10 ondas R$19.500,00 (sem desconto adicional pelo pacote).",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  1500
+        "amostra_tamanho":  1500,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1647,7 +1919,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Tracking_Painel Tap.pdf",
         "observacoes":  "1 onda isolada R$3.250,00; pacote de 7 ondas R$22.750,00.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  1750
+        "amostra_tamanho":  1750,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1659,7 +1933,9 @@ export const PRECOS = [
         "arquivo":  "Resumo_TAP_Brand Lift_SEARA.jpeg",
         "observacoes":  "O fornecedor apresentou subtotais divergentes por grupo; o valor aqui é o \u0027TOTAL CORRETO\u0027 recalculado pela agência a partir da soma correta das linhas (R$15.600 + R$31.200 + R$15.600). Cronograma total estimado: 26 dias úteis.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  4800
+        "amostra_tamanho":  4800,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1671,7 +1947,9 @@ export const PRECOS = [
         "arquivo":  "Resumo_TAP_Brand Lift_SEARA.jpeg",
         "observacoes":  "Mesma ressalva de recálculo do subtotal (R$31.200 + R$46.800 + R$31.200 = R$109.200). Condições: Pix, 60 dias, tributos inclusos, sem desconto por volume.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  8400
+        "amostra_tamanho":  8400,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1683,7 +1961,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Margarinas_QuestionPro.pdf",
         "observacoes":  "Conversão USD/BRL a R$5,01 (cotação de 02/06/2026, conforme comparativo elaborado pela agência com os mesmos dados desta proposta). Valor sujeito a variação cambial e a impostos não inclusos na cotação original em USD.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  2700
+        "amostra_tamanho":  2700,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1695,7 +1975,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Pré teste_QuestionPro.pdf",
         "observacoes":  "1 onda isolada USD 825 (~R$4.133); pacote 2 ondas USD 900 (~R$4.509). Conversão a R$5,01/USD. Fornecedor não realiza facial code. Pagamento 30-60 dias, tributos não inclusos.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  300
+        "amostra_tamanho":  300,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1707,7 +1989,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Pós teste Margarina_QuestionPro.pdf",
         "observacoes":  "Conversão a R$5,01/USD. Tributos não inclusos, pagamento 30-60 dias.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  300
+        "amostra_tamanho":  300,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1719,7 +2003,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Pós teste Seara_QuestionPro.pdf",
         "observacoes":  "Conversão a R$5,01/USD. Economia informada pelo fornecedor de ~38,9% frente a 10 ondas isoladas (USD 7.010,70 x 10 vs. pacote).",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  1500
+        "amostra_tamanho":  1500,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1731,7 +2017,9 @@ export const PRECOS = [
         "arquivo":  "Orç. Seara Tracking_QuestionPro.pdf",
         "observacoes":  "Conversão a R$5,01/USD (equivalente ao valor \u0027por onda\u0027 de R$5.887 confirmado no comparativo da agência). Câmbio exato desta proposta específica (03/06/26) não constava no documento; usado câmbio de referência da mesma época/mesmo fornecedor.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  1750
+        "amostra_tamanho":  1750,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1743,7 +2031,9 @@ export const PRECOS = [
         "arquivo":  "Orç_Seara Brand Lift_QuestionPro.docx",
         "observacoes":  "Conversão a R$5,02/USD (03/06/2026), valor dado diretamente pelo comparativo da agência. Desconto disponível para contratação dos 2 cenários juntos e por volume.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  4800
+        "amostra_tamanho":  4800,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Seara",
@@ -1755,7 +2045,9 @@ export const PRECOS = [
         "arquivo":  "Orç_Seara Brand Lift_QuestionPro.docx",
         "observacoes":  "Conversão a R$5,02/USD (03/06/2026). Orçamento válido por 30 dias.",
         "perfil":  ["Consumidores de Alimentos"],
-        "amostra_tamanho":  8400
+        "amostra_tamanho":  8400,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     },
     {
         "cliente":  "Unimed BH",
@@ -1767,7 +2059,9 @@ export const PRECOS = [
         "arquivo":  "Orçamento_956_Participe Pesquisas Antara R$38.475,00_Unimede_BH_04.2026.pdf",
         "observacoes":  "Orçamento formal nº956 (GestãoClick), 29/04/2026. Prazo de recrutamento 10 dias úteis. Pagamento único por transferência bancária.",
         "perfil":  ["Clientes Ativos"],
-        "amostra_tamanho":  54
+        "amostra_tamanho":  54,
+        "n_grupos_focais":  6,
+        "n_entrevistas":  0
     },
     {
         "cliente":  "Zoho",
@@ -1779,7 +2073,9 @@ export const PRECOS = [
         "arquivo":  "ZOHO Pesquisa Quali_Orçamento Antara R$10.300,00_Recrutamento e incentivo_04.2026.pdf",
         "observacoes":  "Orçamento formal nº951 (GestãoClick), 20/04/2026. Escopo somente recrutamento + incentivo (sem moderação/gravação).",
         "perfil":  ["Decisores B2B"],
-        "amostra_tamanho":  8
+        "amostra_tamanho":  8,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  8
     },
     {
         "cliente":  "Zoho",
@@ -1791,7 +2087,9 @@ export const PRECOS = [
         "arquivo":  "ZOHO Pesquisa Quali_Orçamento Antara R$19.820,00 _Recrutamento, incentivo, moderação e gravação_04.2026.pdf",
         "observacoes":  "Orçamento formal nº950 (GestãoClick), 20/04/2026 — mesmo projeto do orçamento nº951, porém com escopo ampliado (inclui moderação, transcrição e gravação, que o orçamento nº951 não incluía).",
         "perfil":  ["Decisores B2B"],
-        "amostra_tamanho":  8
+        "amostra_tamanho":  8,
+        "n_grupos_focais":  0,
+        "n_entrevistas":  8
     },
     {
         "cliente":  "Zoho",
@@ -1803,7 +2101,9 @@ export const PRECOS = [
         "arquivo":  "ZOHO Pesquisa Quanti_Orçamento Brazil Panels R$29.800,00_04.2026.pdf",
         "observacoes":  "Orçamento informal por e-mail (Outlook), 20/04/2026, Claudio Vasques (Brazil Panels). Terá listagem do cliente. Cronograma sugerido de 5 semanas total.",
         "perfil":  ["Decisores B2B","Clientes Ativos","Não-Clientes/Concorrência"],
-        "amostra_tamanho":  400
+        "amostra_tamanho":  400,
+        "n_grupos_focais":  null,
+        "n_entrevistas":  null
     }
 ] as const;
 
