@@ -132,6 +132,21 @@ export async function gerarBriefingFreelas(dados: DadosBasicos, detalhe: string 
   return toBuffer(children);
 }
 
+// Sem IA disponível no momento: em vez de gerar um briefing por frente a partir
+// de dados estruturados extraídos por IA, geramos UM anexo organizado com o
+// texto exatamente como o solicitante escreveu (fonte da verdade), só formatado
+// em .docx com os dados básicos no topo — nada de classificação automática.
+export async function gerarBriefingGenerico(dados: DadosBasicos, textoLivre: string): Promise<Buffer> {
+  const linhas = textoLivre.split(/\r?\n/);
+  const children = [
+    heading("Briefing — Solicitação de Orçamento"),
+    ...dadosBasicosParagraphs(dados),
+    subheading("Descrição enviada pelo solicitante"),
+    ...linhas.map((linha) => new Paragraph({ text: linha || " ", spacing: { after: 100 } })),
+  ];
+  return toBuffer(children);
+}
+
 export function nomeArquivoSeguro(base: string): string {
   return base
     .normalize("NFD")
