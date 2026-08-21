@@ -48,6 +48,9 @@ export default function HistoricoPage() {
   const [volumeGrupos, setVolumeGrupos] = useState("");
   const [volumeEntrevistas, setVolumeEntrevistas] = useState("");
 
+  type Ordenacao = { campo: "cliente" | "projeto" | "frente" | "fornecedor" | "valor"; dir: "asc" | "desc" };
+  const [ordenacao, setOrdenacao] = useState<Ordenacao | null>(null);
+
   async function entrar(e: React.FormEvent) {
     e.preventDefault();
     setCarregando(true);
@@ -81,6 +84,55 @@ export default function HistoricoPage() {
     setPerfisSelecionados((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
   }
 
+  // Perfis que têm pelo menos 1 registro na frente selecionada — usado só pra
+  // esmaecer visualmente os chips que não têm histórico ali (sem escondê-los:
+  // ainda dá pra selecionar, e o painel cai pra média geral nesse caso).
+  const perfisComDadosNaFrente = useMemo(() => {
+    if (!filtroFrente) return null;
+    const set = new Set<string>();
+    for (const item of dados) {
+      if (item.frente === filtroFrente) {
+        for (const p of item.perfil) set.add(p);
+      }
+    }
+    return set;
+  }, [dados, filtroFrente]);
+
+  function alternarOrdenacao(campo: Ordenacao["campo"]) {
+    setOrdenacao((prev) => {
+      if (prev && prev.campo === campo) {
+        return prev.dir === "asc" ? { campo, dir: "desc" } : null;
+      }
+      return { campo, dir: "asc" };
+    });
+  }
+
+  function exportarCSV(itens: PrecoItem[]) {
+    const headers = ["Cliente", "Projeto", "Frente", "Perfil", "Fornecedor", "Valor (R$)", "Escopo"];
+    const linhas = itens.map((item) => [
+      item.cliente,
+      item.projeto,
+      FRENTE_LABEL[item.frente] ?? item.frente,
+      item.perfil.join("; "),
+      item.fornecedor,
+      item.valor_total_brl !== null ? String(item.valor_total_brl) : "",
+      item.escopo_resumo,
+    ]);
+    const csv = [headers, ...linhas]
+      .map((linha) => linha.map((campo) => `"${String(campo).replace(/"/g, '""')}"`).join(","))
+      .join("\r\n");
+    const bom = "﻿"; // garante acentuação correta ao abrir no Excel
+    const blob = new Blob([bom + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "historico-precos-fornecedores.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   // Filtro "base": frente + busca, sem o perfil. Serve de fallback quando a
   // combinação frente+perfil não tem nenhum histórico (perfil raramente
   // aparece em todas as frentes — ex.: "Viajantes" só existe em projetos
@@ -102,6 +154,27 @@ export default function HistoricoPage() {
     if (perfisSelecionados.length === 0) return filtradosBase;
     return filtradosBase.filter((item) => item.perfil.some((p) => perfisSelecionados.includes(p)));
   }, [filtradosBase, perfisSelecionados]);
+
+  const filtradosOrdenados = useMemo(() => {
+    if (!ordenacao) return filtrados;
+    const { campo, dir } = ordenacao;
+    const mult = dir === "asc" ? 1 : -1;
+    const copia = [...filtrados];
+    copia.sort((a, b) => {
+      if (campo === "valor") {
+        const av = a.valor_total_brl;
+        const bv = b.valor_total_brl;
+        if (av === null && bv === null) return 0;
+        if (av === null) return 1;
+        if (bv === null) return -1;
+        return (Number(av) - Number(bv)) * mult;
+      }
+      const av = campo === "frente" ? FRENTE_LABEL[a.frente] ?? a.frente : String(a[campo] ?? "");
+      const bv = campo === "frente" ? FRENTE_LABEL[b.frente] ?? b.frente : String(b[campo] ?? "");
+      return av.localeCompare(bv, "pt-BR") * mult;
+    });
+    return copia;
+  }, [filtrados, ordenacao]);
 
   const volumeQuantiNum = parseInt(volumeQuanti, 10) || 0;
   const volumeGruposNum = parseInt(volumeGrupos, 10) || 0;
@@ -246,16 +319,21 @@ export default function HistoricoPage() {
             )}
           </label>
           <div className="chip-group">
-            {perfisDisponiveis.map((p) => (
-              <button
-                type="button"
-                key={p}
-                className={`chip ${perfisSelecionados.includes(p) ? "active" : ""}`}
-                onClick={() => togglePerfil(p)}
-              >
-                {p}
-              </button>
-            ))}
+            {perfisDisponiveis.map((p) => {
+              const ativo = perfisSelecionados.includes(p);
+              const semDado = !ativo && perfisComDadosNaFrente !== null && !perfisComDadosNaFrente.has(p);
+              return (
+                <button
+                  type="button"
+                  key={p}
+                  className={`chip ${ativo ? "active" : ""} ${semDado ? "dim" : ""}`}
+                  title={semDado ? `Sem histórico de "${p}" na frente selecionada` : undefined}
+                  onClick={() => togglePerfil(p)}
+                >
+                  {p}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -336,7 +414,13 @@ export default function HistoricoPage() {
                             </p>
                             <p className="stat-sub">
                               custo unitário médio ({stat.amostrasGrupo} cotaç{stat.amostrasGrupo === 1 ? "ão" : "ões"}{" "}
-                              só de grupo)
+                              só de grupo){" "}
+                              <span
+                                className="info-dot"
+                                title='Só entram cotações 100% grupo focal (sem entrevista misturada) — assim não é preciso ratear um valor combinado.'
+                              >
+                                ⓘ
+                              </span>
                             </p>
                           </>
                         )}
@@ -347,7 +431,13 @@ export default function HistoricoPage() {
                             </p>
                             <p className="stat-sub">
                               custo unitário médio ({stat.amostrasEntrevista} cotaç{stat.amostrasEntrevista === 1 ? "ão" : "ões"}{" "}
-                              só de entrevista)
+                              só de entrevista){" "}
+                              <span
+                                className="info-dot"
+                                title='Só entram cotações 100% entrevista/EP (sem grupo focal misturado) — assim não é preciso ratear um valor combinado.'
+                              >
+                                ⓘ
+                              </span>
                             </p>
                           </>
                         )}
@@ -406,21 +496,42 @@ export default function HistoricoPage() {
         </div>
       </section>
 
-      <section className="card" style={{ overflowX: "auto", padding: 0 }}>
+      <section className="card" style={{ padding: 0 }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "14px 16px 0" }}>
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={() => exportarCSV(filtradosOrdenados)}
+            disabled={filtradosOrdenados.length === 0}
+          >
+            ⬇️ Baixar CSV ({filtradosOrdenados.length} registro{filtradosOrdenados.length === 1 ? "" : "s"})
+          </button>
+        </div>
+        <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
           <thead>
             <tr style={{ textAlign: "left", borderBottom: "2px solid var(--border)", background: "#fafaf8" }}>
-              <th style={{ padding: 10 }}>Cliente</th>
-              <th style={{ padding: 10 }}>Projeto</th>
-              <th style={{ padding: 10 }}>Frente</th>
+              <th className="th-sortable" style={{ padding: 10 }} onClick={() => alternarOrdenacao("cliente")}>
+                Cliente{ordenacao?.campo === "cliente" ? (ordenacao.dir === "asc" ? " ▲" : " ▼") : ""}
+              </th>
+              <th className="th-sortable" style={{ padding: 10 }} onClick={() => alternarOrdenacao("projeto")}>
+                Projeto{ordenacao?.campo === "projeto" ? (ordenacao.dir === "asc" ? " ▲" : " ▼") : ""}
+              </th>
+              <th className="th-sortable" style={{ padding: 10 }} onClick={() => alternarOrdenacao("frente")}>
+                Frente{ordenacao?.campo === "frente" ? (ordenacao.dir === "asc" ? " ▲" : " ▼") : ""}
+              </th>
               <th style={{ padding: 10 }}>Perfil</th>
-              <th style={{ padding: 10 }}>Fornecedor</th>
-              <th style={{ padding: 10 }}>Valor</th>
+              <th className="th-sortable" style={{ padding: 10 }} onClick={() => alternarOrdenacao("fornecedor")}>
+                Fornecedor{ordenacao?.campo === "fornecedor" ? (ordenacao.dir === "asc" ? " ▲" : " ▼") : ""}
+              </th>
+              <th className="th-sortable" style={{ padding: 10 }} onClick={() => alternarOrdenacao("valor")}>
+                Valor{ordenacao?.campo === "valor" ? (ordenacao.dir === "asc" ? " ▲" : " ▼") : ""}
+              </th>
               <th style={{ padding: 10 }}>Escopo</th>
             </tr>
           </thead>
           <tbody>
-            {filtrados.map((item, i) => (
+            {filtradosOrdenados.map((item, i) => (
               <tr key={i} style={{ borderBottom: "1px solid var(--border)", verticalAlign: "top" }} title={item.observacoes ?? undefined}>
                 <td style={{ padding: 10, whiteSpace: "nowrap" }}>{item.cliente}</td>
                 <td style={{ padding: 10 }}>{item.projeto}</td>
@@ -435,7 +546,8 @@ export default function HistoricoPage() {
             ))}
           </tbody>
         </table>
-        {filtrados.length === 0 && <p style={{ padding: 16 }}>Nenhum registro encontrado com esses filtros.</p>}
+        {filtradosOrdenados.length === 0 && <p style={{ padding: 16 }}>Nenhum registro encontrado com esses filtros.</p>}
+        </div>
       </section>
     </main>
   );
