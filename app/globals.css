@@ -1,0 +1,264 @@
+:root {
+  --bg: #f4f3f1;
+  --card: #ffffff;
+  --ink: #1c1c1c;
+  --muted: #6b6b6b;
+  --border: #e2e0db;
+  --accent: #b08d57;
+  --accent-ink: #ffffff;
+  --error: #b3261e;
+  --error-bg: #fbeceb;
+  --success-bg: #eaf3ea;
+  --success-ink: #1e5631;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+.header {
+  margin-bottom: 28px;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.header p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  font-size: 1.05rem;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.field .hint {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.8rem;
+  display: block;
+  margin-top: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--ink);
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 400;
+}
+
+.checkbox-item input {
+  width: auto;
+}
+
+.frentes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.frente-toggle {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+}
+
+.frente-toggle.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.file-drop {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.file-list {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.file-list button {
+  background: none;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.submit-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+button.primary {
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.notice {
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+
+.notice.error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.notice.success {
+  background: var(--success-bg);
+  color: var(--success-ink);
+}
+
+.confirmation {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.confirmation h1 {
+  font-size: 1.4rem;
+}
+
+.confirmation p {
+  color: var(--muted);
+}
+
+.confirmation button {
+  margin-top: 20px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.required::after {
+  content: " *";
+  color: var(--error);
+}
