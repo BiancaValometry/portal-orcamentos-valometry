@@ -1,4 +1,4 @@
-﻿// Biblioteca de precos historicos de fornecedores, extraida das pastas de
+// Biblioteca de precos historicos de fornecedores, extraida das pastas de
 // projetos (PROJETOS/2026 e COMERCIAL/PROPOSTAS COMERCIAIS/2026) em 2026-08-21.
 // Dado sensivel (nomes de clientes e fornecedores, valores comerciais) -- este
 // arquivo so deve ser importado no lado servidor (rotas /api), nunca em um
@@ -1505,7 +1505,6 @@ export const PRECOS = [
         "arquivo":  "ZOHO Pesquisa Quanti_Orçamento Brazil Panels R$29.800,00_04.2026.pdf",
         "observacoes":  "Orçamento informal por e-mail (Outlook), 20/04/2026, Claudio Vasques (Brazil Panels). Terá listagem do cliente. Cronograma sugerido de 5 semanas total."
     }
-]
- as const;
+] as const;
 
 export type PrecoItem = (typeof PRECOS)[number];
