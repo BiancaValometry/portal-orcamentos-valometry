@@ -291,7 +291,7 @@ export async function POST(req: NextRequest) {
       const slug = nomeArquivoSeguro(projeto) || task.id;
 
       async function anexarBriefing(buffer: Buffer, filename: string) {
-        const blob = new Blob([buffer], {
+        const blob = new Blob([new Uint8Array(buffer)], {
           type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         const result = await attachFile(task.id, blob, filename);
