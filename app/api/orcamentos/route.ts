@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CLIENT_OPTIONS, OUTRO_CLIENTE } from "@/lib/clientOptions";
 import { ExtractedBriefingSchema, type ExtractedBriefing } from "@/lib/extract";
+import { EstimativaSchema, type Estimativa } from "@/lib/estimate";
 import {
   FIELD,
   TIPO_PESQUISA_OPTION,
@@ -76,9 +77,10 @@ function buildDescription(params: {
   prazo: string;
   textoLivre: string;
   extraido: ExtractedBriefing | null;
+  estimativa: Estimativa | null;
   arquivosNomes: string[];
 }) {
-  const { solicitanteNome, solicitanteEmail, clienteNome, projeto, prazo, textoLivre, extraido, arquivosNomes } = params;
+  const { solicitanteNome, solicitanteEmail, clienteNome, projeto, prazo, textoLivre, extraido, estimativa, arquivosNomes } = params;
   const lines: string[] = [];
   lines.push(`## Solicitação de orçamento`);
   lines.push(``);
@@ -120,6 +122,22 @@ function buildDescription(params: {
     }
   }
 
+  if (estimativa) {
+    lines.push(``, `### 💰 Estimativa de custo (IA, baseada em histórico de fornecedores)`);
+    for (const key of ["quanti", "quali", "social_listening", "freelas"] as const) {
+      const item = estimativa[key];
+      if (!item) continue;
+      const faixa = item.min_brl !== null && item.max_brl !== null
+        ? `R$ ${item.min_brl.toLocaleString("pt-BR")} — R$ ${item.max_brl.toLocaleString("pt-BR")}`
+        : "sem histórico suficiente";
+      lines.push(`- **${FRENTE_LABEL[key] ?? key}:** ${faixa}. ${item.resumo}`);
+      if (item.fornecedores_considerados.length) {
+        lines.push(`  Fornecedores de referência: ${item.fornecedores_considerados.join(", ")}`);
+      }
+    }
+    lines.push(`_${estimativa.aviso}_`);
+  }
+
   lines.push(``, `### Texto original do solicitante`, textoLivre);
 
   if (arquivosNomes.length) {
@@ -141,6 +159,7 @@ export async function POST(req: NextRequest) {
     const prazo = str(form.get("prazo"));
     const textoLivre = str(form.get("textoLivre"));
     const extraidoRaw = str(form.get("extraido"));
+    const estimativaRaw = str(form.get("estimativa"));
 
     const arquivos = form.getAll("arquivos").filter((f): f is File => f instanceof File && f.size > 0);
 
@@ -152,6 +171,12 @@ export async function POST(req: NextRequest) {
     if (extraidoRaw) {
       const parsed = ExtractedBriefingSchema.safeParse(JSON.parse(extraidoRaw));
       if (parsed.success) extraido = parsed.data;
+    }
+
+    let estimativa: Estimativa | null = null;
+    if (estimativaRaw) {
+      const parsed = EstimativaSchema.safeParse(JSON.parse(estimativaRaw));
+      if (parsed.success) estimativa = parsed.data;
     }
 
     const clienteNome =
@@ -167,6 +192,7 @@ export async function POST(req: NextRequest) {
       prazo,
       textoLivre,
       extraido,
+      estimativa,
       arquivosNomes: arquivos.map((f) => f.name),
     });
 

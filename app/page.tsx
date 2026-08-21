@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CLIENT_OPTIONS, OUTRO_CLIENTE } from "@/lib/clientOptions";
 import type { ExtractedBriefing } from "@/lib/extract";
+import type { Estimativa } from "@/lib/estimate";
 
 const FRENTE_LABEL: Record<string, string> = {
   quanti: "Quantitativa",
@@ -10,6 +11,13 @@ const FRENTE_LABEL: Record<string, string> = {
   social_listening: "Social Listening",
   freelas: "Freelas / serviço avulso",
 };
+
+const FRENTE_KEYS = ["quanti", "quali", "social_listening", "freelas"] as const;
+
+function formatBRL(v: number | null): string {
+  if (v === null || v === undefined) return "—";
+  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
 
 type Status = "idle" | "analisando" | "revisao" | "enviando" | "success" | "erro";
 
@@ -27,6 +35,10 @@ export default function Page() {
   const [errorMsg, setErrorMsg] = useState("");
   const [extraido, setExtraido] = useState<ExtractedBriefing | null>(null);
   const [analiseIndisponivel, setAnaliseIndisponivel] = useState(false);
+
+  const [estimativa, setEstimativa] = useState<Estimativa | null>(null);
+  const [estimativaCarregando, setEstimativaCarregando] = useState(false);
+  const [estimativaIndisponivel, setEstimativaIndisponivel] = useState(false);
 
   function onFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -60,6 +72,8 @@ export default function Page() {
     setStatus("analisando");
     setErrorMsg("");
     setAnaliseIndisponivel(false);
+    setEstimativa(null);
+    setEstimativaIndisponivel(false);
 
     try {
       const res = await fetch("/api/analisar", {
@@ -71,11 +85,33 @@ export default function Page() {
       if (!res.ok || !data.ok) throw new Error(data?.error || "Falha na análise.");
       setExtraido(data.extraido);
       setStatus("revisao");
+      if (data.extraido?.frentes?.length > 0) {
+        buscarEstimativa(data.extraido);
+      }
     } catch (err) {
       // Resiliência: se a IA falhar, deixa o solicitante seguir mesmo assim.
       setExtraido(null);
       setAnaliseIndisponivel(true);
       setStatus("revisao");
+    }
+  }
+
+  async function buscarEstimativa(extraidoData: ExtractedBriefing) {
+    setEstimativaCarregando(true);
+    try {
+      const res = await fetch("/api/estimar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ extraido: extraidoData }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data?.error || "Falha na estimativa.");
+      setEstimativa(data.estimativa);
+    } catch {
+      setEstimativa(null);
+      setEstimativaIndisponivel(true);
+    } finally {
+      setEstimativaCarregando(false);
     }
   }
 
@@ -92,6 +128,7 @@ export default function Page() {
     fd.set("prazo", prazo);
     fd.set("textoLivre", textoLivre);
     fd.set("extraido", extraido ? JSON.stringify(extraido) : "");
+    fd.set("estimativa", estimativa ? JSON.stringify(estimativa) : "");
     arquivos.forEach((file) => fd.append("arquivos", file, file.name));
 
     try {
@@ -205,6 +242,39 @@ export default function Page() {
                 <label>Freelas / serviço avulso</label>
                 <p>{extraido.freelas.detalhe || "(sem detalhamento)"}</p>
               </div>
+            )}
+          </section>
+        )}
+
+        {extraido && extraido.frentes.length > 0 && (estimativaCarregando || estimativa || estimativaIndisponivel) && (
+          <section className="card">
+            <h2>💰 Estimativa de custo com fornecedores</h2>
+            {estimativaCarregando && <p className="hint">Calculando estimativa com base em orçamentos anteriores...</p>}
+            {estimativaIndisponivel && !estimativaCarregando && (
+              <p className="hint">Não foi possível calcular uma estimativa agora — isso não impede o envio da solicitação.</p>
+            )}
+            {estimativa && !estimativaCarregando && (
+              <>
+                {FRENTE_KEYS.map((key) => {
+                  const item = estimativa[key];
+                  if (!item) return null;
+                  return (
+                    <div className="field" key={key}>
+                      <label>{FRENTE_LABEL[key]}</label>
+                      <p style={{ fontSize: "1.15rem", fontWeight: 600, margin: "4px 0" }}>
+                        {item.min_brl !== null && item.max_brl !== null
+                          ? `${formatBRL(item.min_brl)} — ${formatBRL(item.max_brl)}`
+                          : "Sem histórico suficiente pra estimar"}
+                      </p>
+                      <p className="hint">{item.resumo}</p>
+                      {item.fornecedores_considerados.length > 0 && (
+                        <p className="hint">Fornecedores de referência: {item.fornecedores_considerados.join(", ")}</p>
+                      )}
+                    </div>
+                  );
+                })}
+                <p className="hint">{estimativa.aviso}</p>
+              </>
             )}
           </section>
         )}
