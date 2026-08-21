@@ -58,7 +58,10 @@ export default function HistoricoPage() {
   }, [dados, filtroFrente, busca]);
 
   const stats = useMemo(() => {
-    const valores = filtrados.map((i) => i.valor_total_brl).filter((v): v is number => v !== null);
+    const valores = filtrados
+      .map((i) => i.valor_total_brl)
+      .filter((v): v is NonNullable<typeof v> => v !== null)
+      .map((v) => Number(v));
     if (!valores.length) return null;
     const soma = valores.reduce((a, b) => a + b, 0);
     return {
