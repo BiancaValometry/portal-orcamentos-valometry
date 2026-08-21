@@ -76,50 +76,72 @@ export default function HistoricoPage() {
     setPerfisSelecionados((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
   }
 
-  const filtrados = useMemo(() => {
+  // Filtro "base": frente + busca, sem o perfil. Serve de fallback quando a
+  // combinação frente+perfil não tem nenhum histórico (perfil raramente
+  // aparece em todas as frentes — ex.: "Viajantes" só existe em projetos
+  // quali no levantamento atual).
+  const filtradosBase = useMemo(() => {
     return dados.filter((item) => {
       if (filtroFrente && item.frente !== filtroFrente) return false;
       if (busca) {
         const alvo = `${item.cliente} ${item.projeto} ${item.fornecedor} ${item.escopo_resumo}`.toLowerCase();
         if (!alvo.includes(busca.toLowerCase())) return false;
       }
-      if (perfisSelecionados.length > 0) {
-        const temPerfil = item.perfil.some((p) => perfisSelecionados.includes(p));
-        if (!temPerfil) return false;
-      }
       return true;
     });
-  }, [dados, filtroFrente, busca, perfisSelecionados]);
+  }, [dados, filtroFrente, busca]);
+
+  // Filtro "preciso": base + perfil. Usado na tabela (que deve mostrar
+  // exatamente o que bate com os filtros, mesmo que fique vazia).
+  const filtrados = useMemo(() => {
+    if (perfisSelecionados.length === 0) return filtradosBase;
+    return filtradosBase.filter((item) => item.perfil.some((p) => perfisSelecionados.includes(p)));
+  }, [filtradosBase, perfisSelecionados]);
 
   const volumeNum = parseInt(volumeAmostral, 10) || 0;
 
+  function calcularStats(itens: PrecoItem[]) {
+    const valores = itens
+      .map((i) => i.valor_total_brl)
+      .filter((v): v is NonNullable<typeof v> => v !== null)
+      .map((v) => Number(v));
+    const custoMedio = valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : null;
+
+    const unitarios: number[] = [];
+    for (const item of itens) {
+      const valor = item.valor_total_brl;
+      const amostra = item.amostra_tamanho;
+      if (valor !== null && amostra !== null && Number(amostra) > 0) {
+        unitarios.push(Number(valor) / Number(amostra));
+      }
+    }
+    const custoUnitarioMedio = unitarios.length ? unitarios.reduce((a, b) => a + b, 0) / unitarios.length : null;
+
+    return { registros: itens.length, comValor: valores.length, custoMedio, custoUnitarioMedio };
+  }
+
+  // Painel por frente: tenta primeiro a combinação exata (frente + perfil
+  // selecionado). Se não existir nenhum histórico para essa combinação — mas
+  // existir histórico geral daquela frente — a estimativa cai pra média geral
+  // da frente (ignorando o perfil) em vez de simplesmente zerar, e sinaliza
+  // isso pro usuário. A média sempre agrega vários clientes/projetos (nunca
+  // exige que exista uma cotação idêntica anterior).
   const porFrente = useMemo(() => {
     const result: Record<
       string,
-      { registros: number; comValor: number; custoMedio: number | null; custoUnitarioMedio: number | null }
+      ReturnType<typeof calcularStats> & { usouFallback: boolean }
     > = {};
     for (const key of FRENTE_KEYS) {
-      const itens = filtrados.filter((i) => i.frente === key);
-      const valores = itens
-        .map((i) => i.valor_total_brl)
-        .filter((v): v is NonNullable<typeof v> => v !== null)
-        .map((v) => Number(v));
-      const custoMedio = valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : null;
-
-      const unitarios: number[] = [];
-      for (const item of itens) {
-        const valor = item.valor_total_brl;
-        const amostra = item.amostra_tamanho;
-        if (valor !== null && amostra !== null && Number(amostra) > 0) {
-          unitarios.push(Number(valor) / Number(amostra));
-        }
+      const preciso = calcularStats(filtrados.filter((i) => i.frente === key));
+      if (preciso.registros > 0 || perfisSelecionados.length === 0) {
+        result[key] = { ...preciso, usouFallback: false };
+      } else {
+        const geral = calcularStats(filtradosBase.filter((i) => i.frente === key));
+        result[key] = { ...geral, usouFallback: geral.registros > 0 };
       }
-      const custoUnitarioMedio = unitarios.length ? unitarios.reduce((a, b) => a + b, 0) / unitarios.length : null;
-
-      result[key] = { registros: itens.length, comValor: valores.length, custoMedio, custoUnitarioMedio };
     }
     return result;
-  }, [filtrados]);
+  }, [filtrados, filtradosBase, perfisSelecionados]);
 
   if (!autenticado) {
     return (
@@ -213,9 +235,11 @@ export default function HistoricoPage() {
       </section>
 
       <section className="card">
-        <h2>
-          Painel por frente — {filtrados.length} registro{filtrados.length === 1 ? "" : "s"} nos filtros atuais
-        </h2>
+        <h2>Painel por frente</h2>
+        <p className="hint" style={{ marginTop: -10, marginBottom: 16 }}>
+          Médias calculadas a partir de vários clientes/projetos do histórico (não é preciso ter existido uma
+          cotação idêntica antes).
+        </p>
         <div className="dashboard-grid">
           {FRENTE_KEYS.map((key) => {
             const stat = porFrente[key];
@@ -227,7 +251,13 @@ export default function HistoricoPage() {
                   <p className="stat-empty">Sem registros com esses filtros.</p>
                 ) : (
                   <>
-                    <p className="stat-sub" style={{ marginTop: 8 }}>
+                    {stat.usouFallback && (
+                      <p className="stat-sub" style={{ marginTop: 8, fontStyle: "italic" }}>
+                        Sem histórico do perfil selecionado nesta frente — usando a média geral de{" "}
+                        {FRENTE_LABEL[key]}.
+                      </p>
+                    )}
+                    <p className="stat-sub" style={{ marginTop: stat.usouFallback ? 0 : 8 }}>
                       {stat.registros} registro{stat.registros === 1 ? "" : "s"} ({stat.comValor} com valor)
                     </p>
                     <p className="stat-big">{formatBRL(stat.custoMedio)}</p>
