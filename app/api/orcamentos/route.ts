@@ -212,7 +212,7 @@ export async function POST(req: NextRequest) {
       cQualiAnalises ? CONSIDERAR_OPTION.qualiAnalises : null,
       cQualiGravacao ? CONSIDERAR_OPTION.qualiGravacao : null,
       cQualiTranscricao ? CONSIDERAR_OPTION.qualiTranscricao : null,
-    ].filter((v): v is string => Boolean(v));
+    ].filter((v): v is NonNullable<typeof v> => v !== null);
     if (considerarIds.length) await set(FIELD.considerarOrcamento, considerarIds, "O que deve ser considerado");
 
     if (amostraTotal) await set(FIELD.amostraQuanti, Number(amostraTotal), "Amostra Quanti");
@@ -223,14 +223,14 @@ export async function POST(req: NextRequest) {
       metCati ? METODOLOGIA_QUANTI_OPTION.cati : null,
       metPainel ? METODOLOGIA_QUANTI_OPTION.painelOnline : null,
       metFornecedorPropoe ? METODOLOGIA_QUANTI_OPTION.fornecedorPropoe : null,
-    ].filter((v): v is string => Boolean(v));
+    ].filter((v): v is NonNullable<typeof v> => v !== null);
     if (metodologiaIds.length) await set(FIELD.metodologiaQuanti, metodologiaIds, "Metodologia Quanti");
 
     const metodosQualiIds = [
       metIdi ? METODO_QUALITATIVO_OPTION.idi : null,
       metGruposFocais ? METODO_QUALITATIVO_OPTION.gruposFocais : null,
       metDiade ? METODO_QUALITATIVO_OPTION.diade : null,
-    ].filter((v): v is string => Boolean(v));
+    ].filter((v): v is NonNullable<typeof v> => v !== null);
     if (metodosQualiIds.length) await set(FIELD.metodosQualitativos, metodosQualiIds, "Métodos qualitativos");
 
     if (nEntrevistas) {
